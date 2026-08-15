@@ -8,151 +8,1545 @@
 
   <meta
     name="description"
-    content="R3QBOT transforms construction drawings into traceable, reviewable and auditable quantities."
+    content="R3QBOT transforms construction drawings into a connected, reviewable and auditable quantity knowledge base."
   />
 
+  <meta name="theme-color" content="#0f1712" />
+
   <style>
+    :root {
+      --green: #39b54a;
+      --green-dark: #228836;
+      --green-deep: #123b20;
+      --green-soft: #eaf7ed;
+
+      --ink: #111713;
+      --ink-soft: #27302a;
+      --muted: #667169;
+
+      --surface: #ffffff;
+      --surface-soft: #f6f8f6;
+      --surface-warm: #fbfcfa;
+
+      --line: #dde4de;
+      --line-dark: #cbd5cc;
+
+      --dark: #0d1510;
+      --dark-2: #132019;
+
+      --shadow:
+        0 20px 60px rgba(17, 23, 19, 0.08);
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+
+      --container: 1180px;
+    }
+
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #151515;
-      background: #ffffff;
+      font-family:
+        Inter,
+        ui-sans-serif,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      color: var(--ink);
+      background: var(--surface);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid rgba(57, 181, 74, 0.35);
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
     }
 
     .container {
-      width: min(1100px, 90%);
+      width: min(var(--container), calc(100% - 48px));
       margin: 0 auto;
     }
 
-    header {
-      border-bottom: 1px solid #e8e8e8;
-      padding: 22px 0;
+    /* =========================================================
+       NAVIGATION
+       ========================================================= */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(221, 228, 222, 0.85);
     }
 
-    nav {
+    .navbar {
+      min-height: 76px;
+
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 24px;
     }
 
     .brand {
-      font-size: 26px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+
       font-weight: 800;
+      letter-spacing: -0.6px;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+      background: var(--ink);
+      color: #ffffff;
+
+      font-size: 13px;
+      font-weight: 900;
       letter-spacing: -0.5px;
     }
 
-    .company {
-      font-size: 14px;
-      color: #666;
+    .brand-mark span {
+      color: var(--green);
     }
 
+    .brand-name {
+      font-size: 21px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      font-size: 14px;
+      font-weight: 650;
+      color: var(--ink-soft);
+    }
+
+    .nav-links a {
+      transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 9px 13px;
+
+      border: 1px solid var(--line);
+      border-radius: 999px;
+
+      color: var(--ink-soft);
+      background: #ffffff;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stage-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+      background: var(--green);
+
+      box-shadow: 0 0 0 4px rgba(57, 181, 74, 0.12);
+    }
+
+    /* =========================================================
+       BUTTONS
+       ========================================================= */
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      margin-top: 32px;
+    }
+
+    .btn {
+      min-height: 48px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      padding: 0 20px;
+
+      border-radius: 12px;
+      border: 1px solid transparent;
+
+      font-size: 14px;
+      font-weight: 750;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #08110a;
+
+      box-shadow:
+        0 12px 30px rgba(57, 181, 74, 0.22);
+    }
+
+    .btn-primary:hover {
+      background: #46c258;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--ink);
+
+      border-color: var(--line-dark);
+    }
+
+    .btn-secondary:hover {
+      border-color: #aebbb0;
+      box-shadow: 0 8px 22px rgba(17, 23, 19, 0.06);
+    }
+
+    .arrow {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
     .hero {
-      padding: 110px 0 90px;
+      position: relative;
+      overflow: hidden;
+
+      padding: 100px 0 96px;
+
+      background:
+        radial-gradient(
+          circle at 82% 26%,
+          rgba(57, 181, 74, 0.12),
+          transparent 28%
+        ),
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #fbfcfa 100%
+        );
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: 0.48;
+
+      background-image:
+        linear-gradient(
+          rgba(17, 23, 19, 0.035) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(17, 23, 19, 0.035) 1px,
+          transparent 1px
+        );
+
+      background-size: 38px 38px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 80%
+        );
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.02fr)
+        minmax(470px, 0.98fr);
+
+      gap: 72px;
+      align-items: center;
     }
 
     .eyebrow {
-      font-size: 14px;
-      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 24px;
+
+      color: var(--green-dark);
+
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
       text-transform: uppercase;
-      letter-spacing: 1.4px;
-      margin-bottom: 18px;
+    }
+
+    .eyebrow-line {
+      width: 27px;
+      height: 2px;
+      background: var(--green);
     }
 
     h1 {
-      max-width: 900px;
-      margin: 0 0 24px;
-      font-size: clamp(42px, 7vw, 70px);
-      line-height: 1.05;
-      letter-spacing: -2px;
+      margin: 0;
+
+      max-width: 700px;
+
+      font-size:
+        clamp(
+          48px,
+          5.3vw,
+          76px
+        );
+
+      line-height: 0.99;
+      letter-spacing: -3.1px;
+
+      text-wrap: balance;
     }
 
-    .hero-text {
-      max-width: 760px;
-      font-size: 21px;
-      color: #555;
+    .accent-text {
+      color: var(--green-dark);
     }
 
-    .status {
-      display: inline-block;
-      margin-top: 26px;
-      padding: 9px 15px;
-      border: 1px solid #d9d9d9;
+    .hero-copy {
+      max-width: 660px;
+
+      margin: 26px 0 0;
+
+      color: var(--muted);
+
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      margin-top: 28px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 12px;
+
+      border: 1px solid var(--line);
       border-radius: 999px;
-      font-size: 14px;
+
+      background: rgba(255, 255, 255, 0.8);
+
+      color: var(--ink-soft);
+
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    section {
-      padding: 75px 0;
-      border-top: 1px solid #eeeeee;
+    .hero-pill::before {
+      content: "";
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--green);
     }
 
-    h2 {
-      margin-top: 0;
-      font-size: 36px;
-      letter-spacing: -1px;
+    /* =========================================================
+       PRODUCT PREVIEW
+       ========================================================= */
+
+    .product-shell {
+      position: relative;
+
+      padding: 11px;
+
+      border-radius: 26px;
+      border: 1px solid #d5ddd6;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff,
+          #edf3ee
+        );
+
+      box-shadow: var(--shadow);
+
+      transform: rotate(0.4deg);
     }
 
-    .section-text {
-      max-width: 780px;
-      font-size: 18px;
-      color: #4f4f4f;
+    .product-shell::before {
+      content: "";
+
+      position: absolute;
+
+      width: 160px;
+      height: 160px;
+
+      right: -35px;
+      top: -35px;
+
+      border-radius: 50%;
+
+      background: rgba(57, 181, 74, 0.13);
+
+      filter: blur(4px);
+
+      z-index: -1;
     }
 
-    .grid {
+    .product-window {
+      overflow: hidden;
+
+      min-height: 530px;
+
+      border-radius: 18px;
+      border: 1px solid #cfd8d0;
+
+      background: #f8faf8;
+    }
+
+    .window-top {
+      min-height: 44px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 14px;
+
+      border-bottom: 1px solid #dde4de;
+
+      background: #ffffff;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .window-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d9dfda;
+    }
+
+    .window-title {
+      color: #6d756f;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .app-layout {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-      margin-top: 36px;
+      grid-template-columns: 48px 1fr 152px;
+
+      min-height: 484px;
     }
 
-    .card {
-      border: 1px solid #e3e3e3;
-      border-radius: 14px;
-      padding: 28px;
+    .app-rail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+
+      padding: 14px 0;
+
+      border-right: 1px solid #dde4de;
+      background: #111913;
     }
 
-    .card h3 {
-      margin-top: 0;
+    .rail-logo {
+      width: 25px;
+      height: 25px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 6px;
+
+      border-radius: 7px;
+
+      background: var(--green);
+
+      color: #08110a;
+
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .rail-icon {
+      width: 24px;
+      height: 24px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 6px;
+
+      color: #8c9b90;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .rail-icon.active {
+      color: #ffffff;
+      background: rgba(57, 181, 74, 0.18);
+    }
+
+    .drawing-area {
+      position: relative;
+      overflow: hidden;
+
+      background-color: #f3f5f3;
+
+      background-image:
+        linear-gradient(
+          #e5e9e6 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          #e5e9e6 1px,
+          transparent 1px
+        );
+
+      background-size: 20px 20px;
+    }
+
+    .drawing-toolbar {
+      position: absolute;
+
+      top: 12px;
+      left: 12px;
+      right: 12px;
+
+      z-index: 5;
+
+      min-height: 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 10px;
+
+      border: 1px solid #dfe5e0;
+      border-radius: 8px;
+
+      background:
+        rgba(255, 255, 255, 0.93);
+
+      box-shadow:
+        0 5px 16px rgba(17, 23, 19, 0.05);
+    }
+
+    .tool-label {
+      color: #58635b;
+      font-size: 8px;
+      font-weight: 750;
+    }
+
+    .tool-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tool-chip {
+      padding: 4px 6px;
+
+      border-radius: 5px;
+
+      color: #56615a;
+      background: #eef2ef;
+
+      font-size: 7px;
+      font-weight: 700;
+    }
+
+    .tool-chip.active {
+      color: #116f28;
+      background: var(--green-soft);
+    }
+
+    .drawing-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 484px;
+    }
+
+    .side-panel {
+      padding: 13px 10px;
+
+      border-left: 1px solid #dde4de;
+
+      background: #ffffff;
+    }
+
+    .side-heading {
       margin-bottom: 10px;
-      font-size: 20px;
+
+      color: #303a33;
+
+      font-size: 9px;
+      font-weight: 800;
     }
 
-    .card p {
-      margin-bottom: 0;
-      color: #606060;
+    .metric-card {
+      margin-bottom: 8px;
+      padding: 9px;
+
+      border: 1px solid #e1e7e2;
+      border-radius: 8px;
+
+      background: #fafbfa;
     }
 
-    .workflow {
-      margin-top: 30px;
-      padding: 26px;
-      border: 1px solid #dedede;
-      border-radius: 14px;
+    .metric-label {
+      margin-bottom: 4px;
+
+      color: #7b857e;
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      color: #1c261f;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      color: #4a554d;
+      font-size: 7px;
+      font-weight: 700;
+    }
+
+    .mini-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .preview-note {
+      margin-top: 12px;
+
+      text-align: center;
+
+      color: #7a857d;
+
+      font-size: 10px;
       font-weight: 600;
     }
 
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid #eeeeee;
-      color: #666;
+    /* =========================================================
+       GENERIC SECTION COMPONENTS
+       ========================================================= */
+
+    .section {
+      padding: 104px 0;
+    }
+
+    .section-soft {
+      background: var(--surface-soft);
+    }
+
+    .section-dark {
+      color: #ffffff;
+      background:
+        radial-gradient(
+          circle at 75% 30%,
+          rgba(57, 181, 74, 0.13),
+          transparent 30%
+        ),
+        var(--dark);
+    }
+
+    .section-label {
+      margin-bottom: 14px;
+
+      color: var(--green-dark);
+
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 1.35px;
+      text-transform: uppercase;
+    }
+
+    .section-dark .section-label {
+      color: #77dd86;
+    }
+
+    .section-heading {
+      max-width: 780px;
+
+      margin: 0;
+
+      font-size:
+        clamp(
+          36px,
+          4vw,
+          54px
+        );
+
+      line-height: 1.08;
+      letter-spacing: -2px;
+
+      text-wrap: balance;
+    }
+
+    .section-intro {
+      max-width: 720px;
+
+      margin: 20px 0 0;
+
+      color: var(--muted);
+
+      font-size: 18px;
+    }
+
+    .section-dark .section-intro {
+      color: #b9c6bc;
+    }
+
+    /* =========================================================
+       PROBLEM
+       ========================================================= */
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+
+      margin-top: 48px;
+    }
+
+    .problem-card {
+      min-height: 220px;
+
+      padding: 28px;
+
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+
+      background: #ffffff;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .problem-card:hover {
+      transform: translateY(-5px);
+
+      border-color: #bfd0c1;
+
+      box-shadow:
+        0 18px 42px rgba(17, 23, 19, 0.07);
+    }
+
+    .problem-number {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 44px;
+
+      border-radius: 9px;
+
+      color: var(--green-deep);
+      background: var(--green-soft);
+
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .problem-card h3 {
+      margin: 0 0 10px;
+
+      font-size: 18px;
+      letter-spacing: -0.3px;
+    }
+
+    .problem-card p {
+      margin: 0;
+
+      color: var(--muted);
+
       font-size: 14px;
     }
 
-    @media (max-width: 700px) {
-      .grid {
+    /* =========================================================
+       WORKFLOW
+       ========================================================= */
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+
+      margin-top: 54px;
+
+      border: 1px solid #2b3a30;
+      border-radius: 20px;
+
+      overflow: hidden;
+    }
+
+    .workflow-step {
+      position: relative;
+
+      min-height: 230px;
+
+      padding: 24px 18px;
+
+      border-right: 1px solid #2b3a30;
+
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .workflow-step:last-child {
+      border-right: 0;
+    }
+
+    .step-index {
+      margin-bottom: 58px;
+
+      color: #73df82;
+
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1px;
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 9px;
+
+      color: #ffffff;
+
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .workflow-step p {
+      margin: 0;
+
+      color: #97a69b;
+
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    /* =========================================================
+       DIFFERENTIATORS
+       ========================================================= */
+
+    .feature-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 70px;
+
+      align-items: start;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 17px;
+    }
+
+    .feature-card {
+      padding: 27px;
+
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+
+      background: #ffffff;
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 27px;
+
+      border-radius: 11px;
+
+      color: var(--green-deep);
+      background: var(--green-soft);
+
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+
+      font-size: 18px;
+      letter-spacing: -0.4px;
+    }
+
+    .feature-card p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+    /* =========================================================
+       PHASE 1
+       ========================================================= */
+
+    .scope-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      margin-top: 50px;
+
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+
+      overflow: hidden;
+
+      background: #ffffff;
+
+      box-shadow:
+        0 18px 50px rgba(17, 23, 19, 0.05);
+    }
+
+    .scope-column {
+      padding: 38px;
+    }
+
+    .scope-column + .scope-column {
+      border-left: 1px solid var(--line);
+      background: #f7f9f7;
+    }
+
+    .scope-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 26px;
+
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .scope-status {
+      padding: 5px 8px;
+
+      border-radius: 6px;
+
+      background: var(--green-soft);
+      color: var(--green-dark);
+
+      font-size: 9px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .scope-status.future {
+      color: #59635b;
+      background: #e9edeb;
+    }
+
+    .scope-list {
+      display: grid;
+      gap: 14px;
+
+      margin: 0;
+      padding: 0;
+
+      list-style: none;
+    }
+
+    .scope-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+
+      color: #4e5951;
+
+      font-size: 14px;
+    }
+
+    .check {
+      width: 20px;
+      height: 20px;
+
+      flex: 0 0 20px;
+
+      display: grid;
+      place-items: center;
+
+      margin-top: 1px;
+
+      border-radius: 6px;
+
+      color: var(--green-dark);
+      background: var(--green-soft);
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .future .check {
+      color: #68726b;
+      background: #e8ece9;
+    }
+
+    /* =========================================================
+       USERS
+       ========================================================= */
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+
+      margin-top: 42px;
+    }
+
+    .audience-card {
+      padding: 24px 15px;
+
+      text-align: center;
+
+      border: 1px solid var(--line);
+      border-radius: 14px;
+
+      background: #ffffff;
+
+      color: var(--ink-soft);
+
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    /* =========================================================
+       FOUNDER
+       ========================================================= */
+
+    .founder-card {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+
+      overflow: hidden;
+
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+
+      background: #ffffff;
+
+      box-shadow:
+        0 20px 55px rgba(17, 23, 19, 0.06);
+    }
+
+    .founder-visual {
+      position: relative;
+
+      min-height: 370px;
+
+      display: flex;
+      align-items: flex-end;
+
+      padding: 32px;
+
+      overflow: hidden;
+
+      color: #ffffff;
+      background:
+        linear-gradient(
+          145deg,
+          #101b13,
+          #173923
+        );
+    }
+
+    .founder-visual::before {
+      content: "";
+
+      position: absolute;
+
+      width: 260px;
+      height: 260px;
+
+      top: -75px;
+      right: -70px;
+
+      border: 1px solid rgba(103, 221, 122, 0.22);
+      border-radius: 50%;
+    }
+
+    .founder-visual::after {
+      content: "R3";
+
+      position: absolute;
+
+      top: 24px;
+      left: 30px;
+
+      color: rgba(255, 255, 255, 0.08);
+
+      font-size: 128px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -10px;
+    }
+
+    .founder-visual-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .founder-role {
+      margin-bottom: 5px;
+
+      color: #77df87;
+
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .founder-name {
+      font-size: 30px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+
+    .founder-content {
+      padding: 48px;
+    }
+
+    .founder-content h3 {
+      margin: 0 0 18px;
+
+      font-size: 31px;
+      letter-spacing: -1px;
+    }
+
+    .founder-content p {
+      max-width: 650px;
+
+      color: var(--muted);
+
+      font-size: 16px;
+    }
+
+    .credential-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      margin-top: 25px;
+    }
+
+    .credential {
+      padding: 8px 11px;
+
+      border-radius: 8px;
+
+      color: #445047;
+      background: #f1f4f1;
+
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    /* =========================================================
+       CTA
+       ========================================================= */
+
+    .cta {
+      padding: 105px 0;
+
+      color: #ffffff;
+      background:
+        radial-gradient(
+          circle at 80% 0%,
+          rgba(57, 181, 74, 0.24),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          #0d1610,
+          #13261a
+        );
+    }
+
+    .cta-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 50px;
+
+      align-items: end;
+    }
+
+    .cta h2 {
+      max-width: 760px;
+
+      margin: 0;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          64px
+        );
+
+      line-height: 1.03;
+      letter-spacing: -2.5px;
+    }
+
+    .cta p {
+      max-width: 620px;
+
+      margin: 20px 0 0;
+
+      color: #b5c4b8;
+
+      font-size: 16px;
+    }
+
+    .cta .btn-secondary {
+      color: #ffffff;
+
+      border-color: #3b4b3f;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      padding: 38px 0;
+
+      background: #09100b;
+      color: #89968c;
+
+      border-top: 1px solid #1d2a20;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+
+      font-size: 12px;
+    }
+
+    .footer-brand {
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .footer-note {
+      max-width: 600px;
+      text-align: right;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 1080px) {
+      .hero-grid {
         grid-template-columns: 1fr;
+        gap: 58px;
       }
 
-      .company {
+      .product-shell {
+        max-width: 720px;
+      }
+
+      .problem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .workflow-step:nth-child(3) {
+        border-right: 0;
+      }
+
+      .workflow-step:nth-child(-n + 3) {
+        border-bottom: 1px solid #2b3a30;
+      }
+
+      .feature-layout {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .audience-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .container {
+        width: min(
+          var(--container),
+          calc(100% - 32px)
+        );
+      }
+
+      .site-header {
+        position: relative;
+      }
+
+      .nav-links {
         display: none;
       }
 
       .hero {
-        padding: 80px 0 65px;
+        padding: 75px 0 72px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .app-layout {
+        grid-template-columns: 42px 1fr 124px;
+      }
+
+      .section {
+        padding: 78px 0;
+      }
+
+      .scope-box {
+        grid-template-columns: 1fr;
+      }
+
+      .scope-column + .scope-column {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .founder-card {
+        grid-template-columns: 1fr;
+      }
+
+      .founder-visual {
+        min-height: 260px;
+      }
+
+      .cta-inner {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .footer-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-note {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .stage-badge {
+        display: none;
+      }
+
+      .brand-name {
+        font-size: 19px;
+      }
+
+      .hero-copy {
+        font-size: 17px;
+      }
+
+      .product-window {
+        min-height: 430px;
+      }
+
+      .app-layout {
+        grid-template-columns: 38px 1fr;
+        min-height: 410px;
+      }
+
+      .side-panel {
+        display: none;
+      }
+
+      .drawing-svg {
+        min-height: 410px;
+      }
+
+      .problem-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .problem-card {
+        min-height: auto;
+      }
+
+      .problem-number {
+        margin-bottom: 25px;
+      }
+
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-step {
+        min-height: auto;
+        border-right: 0 !important;
+        border-bottom: 1px solid #2b3a30;
+      }
+
+      .workflow-step:last-child {
+        border-bottom: 0;
+      }
+
+      .step-index {
+        margin-bottom: 28px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .audience-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .founder-content {
+        padding: 34px 26px;
+      }
+
+      .scope-column {
+        padding: 28px 24px;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -160,152 +1554,1139 @@
 
 <body>
 
-<header>
-  <div class="container">
-    <nav>
-      <div class="brand">R3QBOT</div>
-      <div class="company">R3PLEX Projects Solution</div>
-    </nav>
-  </div>
-</header>
+  <!-- =======================================================
+       NAVIGATION
+       ======================================================= -->
 
-<main>
+  <header class="site-header">
+    <div class="container navbar">
 
-  <div class="hero">
-    <div class="container">
-
-      <div class="eyebrow">
-        AI-Assisted Construction Technology
-      </div>
-
-      <h1>
-        Construction drawings into traceable, reviewable quantities.
-      </h1>
-
-      <p class="hero-text">
-        R3QBOT is an AI-assisted construction drawing intelligence
-        and quantity take-off platform for Quantity Surveyors,
-        estimators and project teams.
-      </p>
-
-      <div class="status">
-        Currently building and validating the MVP
-      </div>
-
-    </div>
-  </div>
-
-  <section>
-    <div class="container">
-
-      <h2>The Problem</h2>
-
-      <p class="section-text">
-        Construction quantity take-off remains repetitive,
-        time-consuming and difficult to audit. Measurements,
-        classifications and spreadsheet totals can become disconnected
-        from the drawings, revisions and professional decisions that
-        produced them.
-      </p>
-
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-
-      <h2>What R3QBOT Does</h2>
-
-      <div class="grid">
-
-        <div class="card">
-          <h3>Drawing Intelligence</h3>
-          <p>
-            AI assists with interpreting construction drawings,
-            measurable regions, labels and related information.
-          </p>
+      <a
+        class="brand"
+        href="#top"
+        aria-label="R3QBOT home"
+      >
+        <div
+          class="brand-mark"
+          aria-hidden="true"
+        >
+          R<span>3</span>
         </div>
 
-        <div class="card">
-          <h3>Traceable Quantities</h3>
-          <p>
-            Quantities remain connected to their source drawing,
-            page, revision and measurable geometry.
-          </p>
+        <div class="brand-name">
+          R3QBOT
         </div>
+      </a>
 
-        <div class="card">
-          <h3>Professional Review</h3>
-          <p>
-            AI-assisted outputs remain reviewable and editable
-            before professional approval.
-          </p>
+      <nav
+        class="nav-links"
+        aria-label="Primary navigation"
+      >
+        <a href="#product">Product</a>
+        <a href="#workflow">How It Works</a>
+        <a href="#scope">Phase 1</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="stage-badge">
+          <span class="stage-dot"></span>
+          Building MVP
         </div>
-
-        <div class="card">
-          <h3>Structured Export</h3>
-          <p>
-            Approved quantities can be exported into structured
-            Excel and CSV workflows with supporting audit information.
-          </p>
-        </div>
-
       </div>
 
     </div>
-  </section>
+  </header>
 
-  <section>
-    <div class="container">
+  <main id="top">
 
-      <h2>How It Works</h2>
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
 
-      <div class="workflow">
-        AI interpretation →
-        geometry extraction and validation →
-        deterministic QS calculation →
-        human review →
-        professional approval →
-        structured export and audit record
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+        <div>
+
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            AI-Assisted Construction Technology
+          </div>
+
+          <h1>
+            Construction drawings into
+            <span class="accent-text">
+              traceable quantities.
+            </span>
+          </h1>
+
+          <p class="hero-copy">
+            R3QBOT transforms construction drawings into a connected,
+            reviewable and auditable quantity knowledge base. It links
+            measurable geometry, quantities, assumptions and professional
+            decisions back to their drawing source.
+          </p>
+
+          <div class="hero-points">
+            <span class="hero-pill">
+              PDF-first
+            </span>
+
+            <span class="hero-pill">
+              Human-reviewed AI
+            </span>
+
+            <span class="hero-pill">
+              Deterministic calculation
+            </span>
+
+            <span class="hero-pill">
+              Audit-ready
+            </span>
+          </div>
+
+          <div class="button-row">
+
+            <a
+              class="btn btn-primary"
+              href="#product"
+            >
+              Explore R3QBOT
+              <span class="arrow">→</span>
+            </a>
+
+            <a
+              class="btn btn-secondary"
+              href="#workflow"
+            >
+              See How It Works
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- Product preview -->
+
+        <div>
+
+          <div class="product-shell">
+
+            <div class="product-window">
+
+              <div class="window-top">
+
+                <div class="window-dots">
+                  <span class="window-dot"></span>
+                  <span class="window-dot"></span>
+                  <span class="window-dot"></span>
+                </div>
+
+                <div class="window-title">
+                  R3QBOT · Drawing Workspace
+                </div>
+
+              </div>
+
+              <div class="app-layout">
+
+                <div class="app-rail">
+
+                  <div class="rail-logo">
+                    R3
+                  </div>
+
+                  <div class="rail-icon active">
+                    ▰
+                  </div>
+
+                  <div class="rail-icon">
+                    ◇
+                  </div>
+
+                  <div class="rail-icon">
+                    ≡
+                  </div>
+
+                  <div class="rail-icon">
+                    ⌁
+                  </div>
+
+                </div>
+
+                <div class="drawing-area">
+
+                  <div class="drawing-toolbar">
+
+                    <span class="tool-label">
+                      Ground Floor Plan
+                    </span>
+
+                    <div class="tool-actions">
+                      <span class="tool-chip">
+                        Select
+                      </span>
+
+                      <span class="tool-chip active">
+                        Area
+                      </span>
+                    </div>
+
+                  </div>
+
+                  <svg
+                    class="drawing-svg"
+                    viewBox="0 0 440 484"
+                    role="img"
+                    aria-label="Conceptual R3QBOT drawing workspace showing floor plan regions"
+                  >
+
+                    <rect
+                      x="58"
+                      y="90"
+                      width="290"
+                      height="302"
+                      fill="#ffffff"
+                      stroke="#9aa59d"
+                      stroke-width="2"
+                    />
+
+                    <line
+                      x1="58"
+                      y1="190"
+                      x2="348"
+                      y2="190"
+                      stroke="#a6b0a8"
+                      stroke-width="2"
+                    />
+
+                    <line
+                      x1="210"
+                      y1="90"
+                      x2="210"
+                      y2="392"
+                      stroke="#a6b0a8"
+                      stroke-width="2"
+                    />
+
+                    <line
+                      x1="58"
+                      y1="290"
+                      x2="210"
+                      y2="290"
+                      stroke="#a6b0a8"
+                      stroke-width="2"
+                    />
+
+                    <line
+                      x1="275"
+                      y1="190"
+                      x2="275"
+                      y2="392"
+                      stroke="#a6b0a8"
+                      stroke-width="2"
+                    />
+
+                    <!-- AI-assisted candidate region -->
+
+                    <polygon
+                      points="
+                        64,196
+                        204,196
+                        204,284
+                        64,284
+                      "
+                      fill="rgba(57,181,74,0.15)"
+                      stroke="#39b54a"
+                      stroke-width="3"
+                    />
+
+                    <circle
+                      cx="64"
+                      cy="196"
+                      r="4"
+                      fill="#ffffff"
+                      stroke="#258f38"
+                      stroke-width="2"
+                    />
+
+                    <circle
+                      cx="204"
+                      cy="196"
+                      r="4"
+                      fill="#ffffff"
+                      stroke="#258f38"
+                      stroke-width="2"
+                    />
+
+                    <circle
+                      cx="204"
+                      cy="284"
+                      r="4"
+                      fill="#ffffff"
+                      stroke="#258f38"
+                      stroke-width="2"
+                    />
+
+                    <circle
+                      cx="64"
+                      cy="284"
+                      r="4"
+                      fill="#ffffff"
+                      stroke="#258f38"
+                      stroke-width="2"
+                    />
+
+                    <text
+                      x="103"
+                      y="236"
+                      font-size="11"
+                      font-weight="700"
+                      fill="#265d31"
+                    >
+                      ROOM 03
+                    </text>
+
+                    <text
+                      x="104"
+                      y="251"
+                      font-size="9"
+                      fill="#4c6953"
+                    >
+                      Candidate region
+                    </text>
+
+                    <text
+                      x="93"
+                      y="144"
+                      font-size="9"
+                      fill="#7a847d"
+                    >
+                      ROOM 01
+                    </text>
+
+                    <text
+                      x="250"
+                      y="144"
+                      font-size="9"
+                      fill="#7a847d"
+                    >
+                      ROOM 02
+                    </text>
+
+                    <text
+                      x="233"
+                      y="245"
+                      font-size="9"
+                      fill="#7a847d"
+                    >
+                      CORE
+                    </text>
+
+                    <text
+                      x="295"
+                      y="291"
+                      font-size="9"
+                      fill="#7a847d"
+                    >
+                      ROOM 04
+                    </text>
+
+                    <!-- dimension marks -->
+
+                    <line
+                      x1="58"
+                      y1="415"
+                      x2="348"
+                      y2="415"
+                      stroke="#8c9790"
+                      stroke-width="1"
+                    />
+
+                    <line
+                      x1="58"
+                      y1="408"
+                      x2="58"
+                      y2="422"
+                      stroke="#8c9790"
+                    />
+
+                    <line
+                      x1="348"
+                      y1="408"
+                      x2="348"
+                      y2="422"
+                      stroke="#8c9790"
+                    />
+
+                    <text
+                      x="178"
+                      y="435"
+                      font-size="9"
+                      fill="#6e7971"
+                    >
+                      SCALE CONFIRMED
+                    </text>
+
+                  </svg>
+
+                </div>
+
+                <aside
+                  class="side-panel"
+                  aria-label="Conceptual quantity review panel"
+                >
+
+                  <div class="side-heading">
+                    Review
+                  </div>
+
+                  <div class="metric-card">
+
+                    <div class="metric-label">
+                      Region
+                    </div>
+
+                    <div class="metric-value">
+                      Room 03
+                    </div>
+
+                  </div>
+
+                  <div class="metric-card">
+
+                    <div class="metric-label">
+                      Status
+                    </div>
+
+                    <div class="status-row">
+                      <span class="mini-dot"></span>
+                      In Review
+                    </div>
+
+                  </div>
+
+                  <div class="metric-card">
+
+                    <div class="metric-label">
+                      Source
+                    </div>
+
+                    <div class="metric-value">
+                      Page 01
+                    </div>
+
+                  </div>
+
+                  <div class="metric-card">
+
+                    <div class="metric-label">
+                      Geometry
+                    </div>
+
+                    <div class="status-row">
+                      Editable
+                    </div>
+
+                  </div>
+
+                </aside>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="preview-note">
+            Conceptual MVP interface shown for illustration.
+            No project data or approved quantity is represented.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         PROBLEM
+         ===================================================== -->
+
+    <section
+      class="section section-soft"
+      id="product"
+    >
+
+      <div class="container">
+
+        <div class="section-label">
+          The Problem
+        </div>
+
+        <h2 class="section-heading">
+          Quantity take-off should not lose its connection to the drawing.
+        </h2>
+
+        <p class="section-intro">
+          Construction measurement remains highly dependent on repetitive
+          tracing, checking and spreadsheet transfer. As drawings change,
+          the reasoning behind a quantity can become increasingly difficult
+          to follow.
+        </p>
+
+        <div class="problem-grid">
+
+          <article class="problem-card">
+
+            <div class="problem-number">
+              01
+            </div>
+
+            <h3>
+              Repetitive tracing
+            </h3>
+
+            <p>
+              Professional time is consumed by repeated drawing
+              measurement, labelling and data entry.
+            </p>
+
+          </article>
+
+          <article class="problem-card">
+
+            <div class="problem-number">
+              02
+            </div>
+
+            <h3>
+              Revision rework
+            </h3>
+
+            <p>
+              Drawing changes can trigger repeated checking and
+              measurement across related quantities.
+            </p>
+
+          </article>
+
+          <article class="problem-card">
+
+            <div class="problem-number">
+              03
+            </div>
+
+            <h3>
+              Weak traceability
+            </h3>
+
+            <p>
+              Spreadsheet totals may not clearly show which drawing,
+              geometry, rule or decision produced the quantity.
+            </p>
+
+          </article>
+
+          <article class="problem-card">
+
+            <div class="problem-number">
+              04
+            </div>
+
+            <h3>
+              Fragmented review
+            </h3>
+
+            <p>
+              Drawings, measurements, assumptions and approvals often
+              sit across separate tools and records.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         WORKFLOW
+         ===================================================== -->
+
+    <section
+      class="section section-dark"
+      id="workflow"
+    >
+
+      <div class="container">
+
+        <div class="section-label">
+          How It Works
+        </div>
+
+        <h2 class="section-heading">
+          AI assists the workflow.
+          Professionals remain in control.
+        </h2>
+
+        <p class="section-intro">
+          R3QBOT separates AI interpretation from authoritative
+          measurement and professional approval.
+        </p>
+
+        <div class="workflow-grid">
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              01
+            </div>
+
+            <h3>
+              Upload Drawing
+            </h3>
+
+            <p>
+              Open supported construction PDF drawings in a structured
+              project workspace.
+            </p>
+
+          </article>
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              02
+            </div>
+
+            <h3>
+              Interpret
+            </h3>
+
+            <p>
+              AI may assist with labels, drawing context and candidate
+              measurable regions.
+            </p>
+
+          </article>
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              03
+            </div>
+
+            <h3>
+              Extract Geometry
+            </h3>
+
+            <p>
+              Geometry is created or validated as editable measurable
+              regions.
+            </p>
+
+          </article>
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              04
+            </div>
+
+            <h3>
+              Calculate
+            </h3>
+
+            <p>
+              Approved geometry and explicit measurement rules drive
+              deterministic calculations.
+            </p>
+
+          </article>
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              05
+            </div>
+
+            <h3>
+              Review
+            </h3>
+
+            <p>
+              Users inspect, correct, classify, accept or reject
+              AI-assisted outputs.
+            </p>
+
+          </article>
+
+          <article class="workflow-step">
+
+            <div class="step-index">
+              06
+            </div>
+
+            <h3>
+              Export & Audit
+            </h3>
+
+            <p>
+              Approved quantities move into structured export while
+              retaining their source and review history.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         DIFFERENTIATION
+         ===================================================== -->
+
+    <section class="section">
+
+      <div class="container feature-layout">
+
+        <div>
+
+          <div class="section-label">
+            Why R3QBOT
+          </div>
+
+          <h2 class="section-heading">
+            Drawing intelligence designed around professional review.
+          </h2>
+
+          <p class="section-intro">
+            R3QBOT is being developed as an assistive professional
+            workspace rather than a black-box automatic measurement tool.
+          </p>
+
+        </div>
+
+        <div class="feature-grid">
+
+          <article class="feature-card">
+
+            <div class="feature-icon">
+              H
+            </div>
+
+            <h3>
+              Human-Reviewed AI
+            </h3>
+
+            <p>
+              AI suggestions remain draft assistance until reviewed,
+              corrected where necessary and professionally approved.
+            </p>
+
+          </article>
+
+          <article class="feature-card">
+
+            <div class="feature-icon">
+              ↗
+            </div>
+
+            <h3>
+              Traceability by Design
+            </h3>
+
+            <p>
+              Measurements can remain linked to drawing, page, revision,
+              geometry, classification and review status.
+            </p>
+
+          </article>
+
+          <article class="feature-card">
+
+            <div class="feature-icon">
+              =
+            </div>
+
+            <h3>
+              Deterministic Measurement
+            </h3>
+
+            <p>
+              Quantities are calculated from approved geometry and
+              explicit rules rather than free-form AI estimates.
+            </p>
+
+          </article>
+
+          <article class="feature-card">
+
+            <div class="feature-icon">
+              M
+            </div>
+
+            <h3>
+              Manual Fallback
+            </h3>
+
+            <p>
+              Professional users retain the ability to create and correct
+              measurements when AI assistance is unavailable or unsuitable.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         PHASE 1 SCOPE
+         ===================================================== -->
+
+    <section
+      class="section section-soft"
+      id="scope"
+    >
+
+      <div class="container">
+
+        <div class="section-label">
+          Phase 1
+        </div>
+
+        <h2 class="section-heading">
+          Start narrow.
+          Prove the complete workflow.
+        </h2>
+
+        <p class="section-intro">
+          The immediate R3QBOT MVP focuses on architectural floor-area
+          measurement from supported PDF drawings, with the goal of proving
+          one reliable workflow from drawing upload to professionally
+          reviewed export.
+        </p>
+
+        <div class="scope-box">
+
+          <div class="scope-column">
+
+            <div class="scope-title">
+              Current MVP Focus
+
+              <span class="scope-status">
+                Building
+              </span>
+            </div>
+
+            <ul class="scope-list">
+
+              <li>
+                <span class="check">✓</span>
+                Multi-page PDF drawing workspace
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                Drawing scale confirmation
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                Floor-area region creation and editing
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                AI-assisted candidate regions and labels where useful
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                Deterministic quantity calculation
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                Human review and approval
+              </li>
+
+              <li>
+                <span class="check">✓</span>
+                Structured Excel / CSV export and audit record
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div class="scope-column future">
+
+            <div class="scope-title">
+              Future Expansion
+
+              <span class="scope-status future">
+                Later
+              </span>
+            </div>
+
+            <ul class="scope-list">
+
+              <li>
+                <span class="check">→</span>
+                Beams
+              </li>
+
+              <li>
+                <span class="check">→</span>
+                Slabs and columns
+              </li>
+
+              <li>
+                <span class="check">→</span>
+                Walls, doors and windows
+              </li>
+
+              <li>
+                <span class="check">→</span>
+                Broader architectural and civil quantities
+              </li>
+
+              <li>
+                <span class="check">→</span>
+                Mechanical and electrical quantities
+              </li>
+
+              <li>
+                <span class="check">→</span>
+                Revision intelligence and connected project records
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         USERS
+         ===================================================== -->
+
+    <section class="section">
+
+      <div class="container">
+
+        <div class="section-label">
+          Built For
+        </div>
+
+        <h2 class="section-heading">
+          Construction professionals who need quantities they can review.
+        </h2>
+
+        <div class="audience-grid">
+
+          <div class="audience-card">
+            Quantity Surveyors
+          </div>
+
+          <div class="audience-card">
+            Cost Consultants
+          </div>
+
+          <div class="audience-card">
+            Estimators
+          </div>
+
+          <div class="audience-card">
+            Contractors
+          </div>
+
+          <div class="audience-card">
+            Developers
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         FOUNDER
+         ===================================================== -->
+
+    <section
+      class="section section-soft"
+      id="about"
+    >
+
+      <div class="container">
+
+        <div class="founder-card">
+
+          <div class="founder-visual">
+
+            <div class="founder-visual-content">
+
+              <div class="founder-role">
+                Founder
+              </div>
+
+              <div class="founder-name">
+                Ryan Ong
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="founder-content">
+
+            <div class="section-label">
+              R3PLEX Projects Solution
+            </div>
+
+            <h3>
+              Built from construction-domain experience.
+            </h3>
+
+            <p>
+              R3QBOT is founder-led by Ryan Ong through R3PLEX Projects
+              Solution. The product is being developed from a Quantity
+              Surveying and construction project management perspective,
+              with a focus on practical measurement, review, traceability
+              and professional control.
+            </p>
+
+            <p>
+              R3PLEX is currently building and validating the R3QBOT MVP
+              before broader commercial and discipline expansion.
+            </p>
+
+            <div class="credential-row">
+
+              <span class="credential">
+                Quantity Surveying
+              </span>
+
+              <span class="credential">
+                Construction
+              </span>
+
+              <span class="credential">
+                Project Management
+              </span>
+
+              <span class="credential">
+                PropTech / ConTech
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =====================================================
+         FINAL CTA
+         ===================================================== -->
+
+    <section
+      class="cta"
+      id="contact"
+    >
+
+      <div class="container cta-inner">
+
+        <div>
+
+          <div class="section-label">
+            R3QBOT
+          </div>
+
+          <h2>
+            Building a more reviewable way to measure construction.
+          </h2>
+
+          <p>
+            R3QBOT is currently at the MVP development and validation
+            stage. The immediate objective is to prove a reliable,
+            professionally reviewed PDF-to-quantity workflow before
+            broader commercial expansion.
+          </p>
+
+        </div>
+
+        <div class="button-row">
+
+          <a
+            class="btn btn-primary"
+            href="#top"
+          >
+            Back to Top
+            <span class="arrow">↑</span>
+          </a>
+
+          <a
+            class="btn btn-secondary"
+            href="https://github.com/R3PLEX-Projects-Solution"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            R3PLEX on GitHub
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer>
+
+    <div class="container footer-row">
+
+      <div>
+        <span class="footer-brand">
+          R3QBOT
+        </span>
+        · R3PLEX Projects Solution
+        · © 2026
+      </div>
+
+      <div class="footer-note">
+        AI-assisted outputs are intended for professional review.
+        R3QBOT does not replace Quantity Surveyor judgement or
+        professional approval.
       </div>
 
     </div>
-  </section>
 
-  <section>
-    <div class="container">
-
-      <h2>Built for Construction Professionals</h2>
-
-      <p class="section-text">
-        Quantity Surveyors · Cost Consultants · Estimators ·
-        Contractors · Developers
-      </p>
-
-    </div>
-  </section>
-
-  <section>
-    <div class="container">
-
-      <h2>About R3QBOT</h2>
-
-      <p class="section-text">
-        R3QBOT is being developed by R3PLEX Projects Solution,
-        a Malaysia-based construction technology venture focused on
-        practical digital tools for construction professionals.
-      </p>
-
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="container">
-    © 2026 R3PLEX Projects Solution · R3QBOT
-  </div>
-</footer>
+  </footer>
 
 </body>
 </html>
