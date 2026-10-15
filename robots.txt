@@ -1,0 +1,9 @@
+# R3QBOT by R3PLEX Projects Solution
+# Note: crawlers only read robots.txt at a host root. While this site is served
+# from a GitHub Pages project path, this file takes effect only once the site is
+# moved to its own domain. The sitemap can be submitted directly in Google
+# Search Console in the meantime.
+User-agent: *
+Allow: /
+
+Sitemap: https://r3plex-projects-solution.github.io/r3qbot-site/sitemap.xml

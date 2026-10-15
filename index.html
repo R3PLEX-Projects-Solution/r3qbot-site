@@ -3,12 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R3QBOT | AI-Assisted Quantity Take-Off by R3PLEX Projects Solution</title>
+  <title>R3QBOT | AI-Assisted Drawing Intelligence &amp; Quantity Take-Off | R3PLEX Projects Solution</title>
   <meta
     name="description"
-    content="R3QBOT transforms construction drawings into a connected, reviewable and auditable quantity knowledge base."
+    content="R3QBOT by R3PLEX Projects Solution is an AI-assisted drawing intelligence and quantity take-off platform for Quantity Surveyors, currently a working prototype in MVP development."
   />
   <meta name="theme-color" content="#080d09" />
+  <link rel="canonical" href="https://r3plex-projects-solution.github.io/r3qbot-site/" />
+
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+  <meta property="og:site_name" content="R3QBOT by R3PLEX Projects Solution" />
+  <meta property="og:title" content="R3QBOT | AI-Assisted Drawing Intelligence &amp; Quantity Take-Off" />
+  <meta property="og:description" content="Construction drawings into traceable, reviewable quantities. R3QBOT is an AI-assisted drawing intelligence and quantity take-off platform in MVP development, with Quantity Surveyor review and approval at every step." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r3plex-projects-solution.github.io/r3qbot-site/" />
+  <meta property="og:locale" content="en_MY" />
+  <meta property="og:image" content="https://r3plex-projects-solution.github.io/r3qbot-site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="R3QBOT by R3PLEX Projects Solution: AI-assisted drawing intelligence and quantity take-off" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="R3QBOT | AI-Assisted Drawing Intelligence &amp; Quantity Take-Off" />
+  <meta name="twitter:description" content="An AI-assisted drawing intelligence and quantity take-off platform in MVP development, built around Quantity Surveyor review." />
+  <meta name="twitter:image" content="https://r3plex-projects-solution.github.io/r3qbot-site/assets/og-image.png" />
+
+  <link rel="preload" as="image" href="assets/r3plex-logo-256.webp" type="image/webp" />
 
   <style>
     :root {
@@ -1036,6 +1058,35 @@
         padding: 14px 0;
       }
 
+      /* Mobile: header buttons live inside the collapsible menu */
+      .site-header:not(.menu-open) .header-actions {
+        display: none;
+      }
+
+      .site-header.menu-open .header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        margin-left: 0;
+        padding-bottom: 6px;
+      }
+
+      .site-header.menu-open .header-actions .btn {
+        width: 100%;
+        white-space: nowrap;
+      }
+
+      .site-header.menu-open .header-actions .btn-primary {
+        grid-column: 1 / -1;
+      }
+
+      .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 6px 0;
+      }
+
       .nav-toggle {
         display: inline-flex;
       }
@@ -1085,11 +1136,6 @@
         padding: 66px 0;
       }
 
-      .header-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
       .hero-actions,
       .cta-actions {
         width: 100%;
@@ -1133,6 +1179,74 @@
       }
     }
 
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -60px;
+      z-index: 100;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: #5fe06f;
+      color: #06100a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .nav-toggle:focus-visible,
+    .nav-links a:focus-visible,
+    .btn:focus-visible,
+    .brand:focus-visible {
+      outline: 2px solid #5fe06f;
+      outline-offset: 3px;
+    }
+
+    .mockup-caption {
+      margin: 12px 4px 0;
+      color: #95a097;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .status-note {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border: 1px solid #2a3d2e;
+      border-radius: 14px;
+      background: #0d1510;
+      color: #c8d0ca;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .status-note strong {
+      color: #f4f7f4;
+    }
+
+    .contact-line {
+      margin-top: 14px;
+      color: #c8d0ca;
+    }
+
+    .contact-line a {
+      color: #73ea81;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1145,19 +1259,24 @@
   </style>
 </head>
 <body>
-  <header class="site-header">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="siteHeader">
     <div class="container header-inner">
       <a href="#top" class="brand" aria-label="R3QBOT home">
-        <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="brand-logo" />
+        <picture>
+          <source srcset="assets/r3plex-logo-256.webp" type="image/webp" />
+          <img src="assets/r3plex-logo-256.png" alt="R3PLEX Projects Solution logo" class="brand-logo" width="256" height="256" decoding="async" fetchpriority="high" />
+        </picture>
         <div class="brand-text">
           <div class="brand-name">R3QBOT</div>
           <div class="brand-subtitle">by R3PLEX Projects Solution</div>
         </div>
       </a>
 
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Open navigation menu"><span aria-hidden="true">☰</span></button>
 
-      <nav class="nav-links" id="navLinks">
+      <nav class="nav-links" id="navLinks" aria-label="Primary navigation">
         <a href="#problem">Problem</a>
         <a href="#workflow">Workflow</a>
         <a href="#why">Why R3QBOT</a>
@@ -1172,7 +1291,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          R3PLEX ↗
+          R3PLEX <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span>
         </a>
 
         <a class="btn btn-secondary" href="#why">Learn More</a>
@@ -1182,7 +1301,7 @@
   </header>
 
   <main id="top">
-    <section class="hero">
+    <section class="hero" id="main" tabindex="-1">
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="eyebrow">AI-assisted construction technology</div>
@@ -1193,7 +1312,7 @@
           </h1>
 
           <p class="hero-copy">
-            R3QBOT transforms construction drawings into a connected, reviewable and auditable quantity knowledge base. It links drawings, details, schedules, revisions, measurable elements, quantities, assumptions, deviations and professional decisions within one workspace.
+            R3QBOT is an AI-assisted drawing intelligence and quantity take-off platform, now in MVP development. It is designed to turn construction drawings into a connected, reviewable and auditable quantity knowledge base, linking drawings, details, schedules, revisions, measurable elements, quantities, assumptions, deviations and professional decisions within one workspace.
           </p>
 
           <p class="hero-note">
@@ -1212,8 +1331,8 @@
           </div>
         </div>
 
-        <div class="hero-visual">
-          <div class="product-shell">
+        <div class="hero-visual" role="img" aria-label="Illustrative mock-up of the R3QBOT floor-area review workspace using sample values. Not live product output.">
+          <div class="product-shell" aria-hidden="true">
             <div class="product-window">
               <div class="window-top">
                 <span class="window-dot"></span>
@@ -1309,6 +1428,7 @@
               </div>
             </div>
           </div>
+          <p class="mockup-caption" aria-hidden="true">Illustrative mock-up with sample values, not live product output.</p>
         </div>
       </div>
     </section>
@@ -1357,7 +1477,7 @@
           <div class="section-label">Core Workflow</div>
           <h2>R3QBOT keeps the drawing viewer at the centre of the workflow.</h2>
           <p>
-            The product follows a disciplined process: AI assistance where useful, deterministic calculation where required, and human review before approval and export.
+            The product is designed around a disciplined process: AI assistance where useful, deterministic calculation where required, and human review before approval and export.
           </p>
         </div>
 
@@ -1446,17 +1566,17 @@
         <div class="scope-box">
           <div class="scope-col">
             <div class="scope-top">
-              <h3>What Phase 1 covers now</h3>
-              <span class="status-badge now">Current MVP</span>
+              <h3>Phase 1 MVP scope</h3>
+              <span class="status-badge now">In development</span>
             </div>
 
             <ul class="feature-list">
-              <li><span class="check">✓</span><span>Project creation and multi-page PDF viewing</span></li>
-              <li><span class="check">✓</span><span>Scale calibration and page review</span></li>
-              <li><span class="check">✓</span><span>Manual and AI-assisted floor-area region workflow</span></li>
-              <li><span class="check">✓</span><span>Geometry editing, room labels and classification</span></li>
-              <li><span class="check">✓</span><span>Assumption, deviation and warning records</span></li>
-              <li><span class="check">✓</span><span>Review, approval and Excel/CSV export</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Project creation and multi-page PDF viewing</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Scale calibration and page review</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Manual floor-area measurement, with AI-assisted region suggestion (One-click Area) in development for selected supported vector drawings</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Geometry editing, room labels and classification</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Assumption, deviation and warning records</span></li>
+              <li><span class="check" aria-hidden="true">•</span><span>Review, approval and Excel/CSV export</span></li>
             </ul>
           </div>
 
@@ -1476,6 +1596,10 @@
             </ul>
           </div>
         </div>
+
+        <p class="status-note">
+          <strong>Current status:</strong> R3QBOT is a working prototype in active MVP development and internal validation. It is not yet a production release. Manual measurement remains the baseline workflow, and every quantity requires Quantity Surveyor review and approval. Pilot participation is by arrangement.
+        </p>
       </div>
     </section>
 
@@ -1491,7 +1615,10 @@
 
         <div class="founder-card">
           <div class="founder-visual">
-            <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="founder-mini-logo" />
+            <picture>
+              <source srcset="assets/r3plex-logo-256.webp" type="image/webp" />
+              <img src="assets/r3plex-logo-256.png" alt="R3PLEX Projects Solution logo" class="founder-mini-logo" width="256" height="256" loading="lazy" decoding="async" />
+            </picture>
             <div class="founder-role">Founder & Product Lead</div>
             <h3>Ryan Ong</h3>
           </div>
@@ -1521,12 +1648,15 @@
         <div>
           <h2>Interested in R3QBOT?</h2>
           <p>
-            R3QBOT is being developed as a practical, human-reviewed AI platform for construction quantity take-off. If you are interested in pilot collaboration, product feedback or partnership opportunities, get in touch.
+            R3QBOT is being developed as an AI-assisted drawing intelligence and quantity take-off platform, with human review at every step. If you are interested in pilot collaboration, product feedback or partnership opportunities, get in touch.
+          </p>
+          <p class="contact-line">
+            Email: <a href="mailto:ryanong.r3plex@gmail.com">ryanong.r3plex@gmail.com</a>
           </p>
         </div>
 
         <div class="cta-actions">
-          <a class="btn btn-primary" href="mailto:hello@r3plex.com">Contact R3PLEX</a>
+          <a class="btn btn-primary" href="mailto:ryanong.r3plex@gmail.com?subject=R3QBOT%20Enquiry">Contact R3PLEX</a>
           <a class="btn btn-secondary" href="#top">Back to Top</a>
         </div>
       </div>
@@ -1536,32 +1666,49 @@
   <footer>
     <div class="container footer-inner">
       <div class="footer-left">
-        <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="footer-logo" />
+        <picture>
+          <source srcset="assets/r3plex-logo-256.webp" type="image/webp" />
+          <img src="assets/r3plex-logo-256.png" alt="R3PLEX Projects Solution logo" class="footer-logo" width="256" height="256" loading="lazy" decoding="async" />
+        </picture>
         <div>
           <div class="footer-name">R3QBOT</div>
-          <div class="footer-meta">AI-assisted quantity take-off by R3PLEX Projects Solution</div>
+          <div class="footer-meta">AI-assisted drawing intelligence and quantity take-off by R3PLEX Projects Solution</div>
         </div>
       </div>
 
       <div class="footer-right">
-        <div>© <span id="year"></span> R3PLEX Projects Solution. All rights reserved.</div>
+        <div>© <span id="year">2026</span> R3PLEX Projects Solution. All rights reserved.</div>
         <div>R3QBOT is a reviewable professional tool. Human approval remains required.</div>
       </div>
     </div>
   </footer>
 
   <script>
+    const siteHeader = document.getElementById("siteHeader");
     const navToggle = document.getElementById("navToggle");
     const navLinks = document.getElementById("navLinks");
 
+    function setMenu(isOpen) {
+      navLinks.classList.toggle("open", isOpen);
+      siteHeader.classList.toggle("menu-open", isOpen);
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+      navToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+      navToggle.querySelector("span").textContent = isOpen ? "×" : "☰";
+    }
+
     navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("open");
+      setMenu(!navLinks.classList.contains("open"));
     });
 
-    document.querySelectorAll('#navLinks a').forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-      });
+    document.querySelectorAll("#navLinks a, .header-actions a").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && navLinks.classList.contains("open")) {
+        setMenu(false);
+        navToggle.focus();
+      }
     });
 
     document.getElementById("year").textContent = new Date().getFullYear();
