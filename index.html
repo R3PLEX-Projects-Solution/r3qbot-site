@@ -1,1570 +1,877 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R3QBOT | AI-Assisted Quantity Take-Off by R3PLEX Projects Solution</title>
-  <meta
-    name="description"
-    content="R3QBOT transforms construction drawings into a connected, reviewable and auditable quantity knowledge base."
-  />
-  <meta name="theme-color" content="#080d09" />
-
-  <style>
-    :root {
-      --bg: #080d09;
-      --bg-soft: #0d1510;
-      --bg-card: #111b14;
-      --bg-card-2: #152019;
-      --text: #f4f7f4;
-      --text-soft: #c8d0ca;
-      --muted: #95a097;
-      --line: #233127;
-      --line-soft: #314037;
-      --green: #39b54a;
-      --green-bright: #5fe06f;
-      --green-soft: rgba(57, 181, 74, 0.14);
-      --shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
-      --radius: 18px;
-      --radius-sm: 12px;
-      --container: 1180px;
-      --transition: 0.25s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      background: var(--bg);
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 80% 10%, rgba(57, 181, 74, 0.10), transparent 24%),
-        radial-gradient(circle at 10% 80%, rgba(57, 181, 74, 0.05), transparent 28%),
-        var(--bg);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: min(var(--container), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(8, 13, 9, 0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(57, 181, 74, 0.12);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      min-height: 78px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-
-    .brand-logo {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-      background: #fff;
-      border-radius: 12px;
-      padding: 5px;
-      border: 1px solid #dfe5df;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-name {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      color: #ffffff;
-    }
-
-    .brand-subtitle {
-      font-size: 0.76rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .nav-toggle {
-      display: none;
-      border: 1px solid var(--line-soft);
-      background: #111812;
-      color: #ffffff;
-      border-radius: 10px;
-      padding: 10px 12px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: var(--text-soft);
-      font-size: 0.96rem;
-    }
-
-    .nav-links a {
-      transition: color var(--transition);
-    }
-
-    .nav-links a:hover {
-      color: var(--green-bright);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 13px 20px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition:
-        transform var(--transition),
-        background var(--transition),
-        border-color var(--transition),
-        color var(--transition),
-        box-shadow var(--transition);
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      color: #071009;
-      background: var(--green-bright);
-      border-color: var(--green-bright);
-      box-shadow: 0 12px 30px rgba(57, 181, 74, 0.22);
-    }
-
-    .btn-primary:hover {
-      background: #73ea81;
-      border-color: #73ea81;
-    }
-
-    .btn-secondary {
-      color: #ffffff;
-      background: #111812;
-      border-color: var(--line-soft);
-    }
-
-    .btn-secondary:hover {
-      background: #172018;
-      border-color: #4b5b4f;
-    }
-
-    .hero {
-      padding: 76px 0 48px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 42px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      color: var(--green-bright);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 28px;
-      height: 2px;
-      background: var(--green-bright);
-      border-radius: 999px;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(2.4rem, 5vw, 4.35rem);
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-    }
-
-    .accent {
-      color: var(--green-bright);
-    }
-
-    .hero-copy {
-      margin: 0 0 22px;
-      color: var(--text-soft);
-      font-size: 1.07rem;
-      max-width: 62ch;
-    }
-
-    .hero-note {
-      margin: 0 0 28px;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(17, 27, 20, 0.9);
-      border: 1px solid var(--line);
-      color: var(--text-soft);
-      font-size: 0.9rem;
-    }
-
-    .pill::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      background: var(--green-bright);
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(95, 224, 111, 0.1);
-    }
-
-    .hero-visual {
-      position: relative;
-    }
-
-    .product-shell {
-      border-radius: 24px;
-      padding: 18px;
-      background:
-        linear-gradient(145deg, #152018, #0a100c);
-      border: 1px solid #2b3a2f;
-      box-shadow:
-        0 34px 80px rgba(0, 0, 0, 0.42),
-        0 0 80px rgba(57, 181, 74, 0.06);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .product-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at top right, rgba(95, 224, 111, 0.12), transparent 28%);
-      pointer-events: none;
-    }
-
-    .product-window {
-      position: relative;
-      border-radius: 18px;
-      background: #0f1712;
-      border: 1px solid #243126;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .window-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 16px;
-      background: #111912;
-      border-bottom: 1px solid #233026;
-    }
-
-    .window-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #49554c;
-    }
-
-    .window-title {
-      margin-left: 8px;
-      color: #a8b3ab;
-      font-size: 0.86rem;
-      font-weight: 700;
-    }
-
-    .window-body {
-      display: grid;
-      grid-template-columns: 72px 1fr 210px;
-      min-height: 430px;
-    }
-
-    .app-rail {
-      background: #090e0b;
-      border-right: 1px solid #202d23;
-      padding: 18px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .rail-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: var(--green-bright);
-      color: #071009;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-    }
-
-    .rail-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: #869187;
-      display: grid;
-      place-items: center;
-      font-size: 0.93rem;
-    }
-
-    .rail-icon.active {
-      color: #ffffff;
-      background: rgba(95, 224, 111, 0.12);
-      border-color: rgba(95, 224, 111, 0.18);
-    }
-
-    .main-panel {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .drawing-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid #d8e0d9;
-    }
-
-    .toolbar-left,
-    .toolbar-right {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .tool-label {
-      color: #405045;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .tool-chip {
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: #eef2ef;
-      color: #536158;
-      font-size: 0.83rem;
-      font-weight: 700;
-      border: 1px solid #dde6df;
-    }
-
-    .tool-chip.active {
-      background: #dff5e3;
-      color: #126928;
-      border-color: #b7e7bf;
-    }
-
-    .drawing-area {
-      position: relative;
-      flex: 1;
-      min-height: 350px;
-      background:
-        linear-gradient(#e4eae4 1px, transparent 1px),
-        linear-gradient(90deg, #e4eae4 1px, transparent 1px),
-        #f5f7f5;
-      background-size: 26px 26px;
-      overflow: hidden;
-    }
-
-    .plan-title {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      padding: 9px 12px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid #d5dcd6;
-      border-radius: 12px;
-      color: #2f3d34;
-      font-size: 0.82rem;
-      font-weight: 700;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-    }
-
-    .room {
-      position: absolute;
-      border: 3px solid #2f3a31;
-      background: rgba(255, 255, 255, 0.84);
-    }
-
-    .room.selected {
-      border-color: var(--green);
-      background: rgba(95, 224, 111, 0.20);
-      box-shadow: inset 0 0 0 1px rgba(57, 181, 74, 0.14);
-    }
-
-    .room-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #2c3730;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-align: center;
-      line-height: 1.35;
-    }
-
-    .tag {
-      position: absolute;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
-      border: 1px solid transparent;
-      white-space: nowrap;
-    }
-
-    .tag.green {
-      background: #dff5e3;
-      color: #126928;
-      border-color: #bbeac4;
-    }
-
-    .tag.dark {
-      background: #1b231d;
-      color: #ecf3ed;
-      border-color: #344036;
-    }
-
-    .tag.small {
-      padding: 6px 10px;
-      font-size: 0.74rem;
-    }
-
-    .side-panel {
-      background: #111912;
-      border-left: 1px solid #202d23;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .side-heading {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .metric-card {
-      background: #162019;
-      border: 1px solid #253227;
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .metric-label {
-      color: #8f9b92;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 6px;
-    }
-
-    .metric-value {
-      color: #f5f8f5;
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .status-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .status-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      color: #d0d8d1;
-      font-size: 0.9rem;
-    }
-
-    .status-row span:last-child {
-      color: var(--green-bright);
-      font-weight: 800;
-    }
-
-    .note-box {
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: rgba(95, 224, 111, 0.08);
-      border: 1px solid rgba(95, 224, 111, 0.14);
-      color: #bcd0bf;
-      font-size: 0.85rem;
-    }
-
-    section {
-      padding: 82px 0;
-    }
-
-    .section-soft {
-      background: rgba(255, 255, 255, 0.015);
-      border-top: 1px solid rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    }
-
-    .section-head {
-      max-width: 760px;
-      margin-bottom: 34px;
-    }
-
-    .section-label {
-      color: var(--green-bright);
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .section-head h2 {
-      margin: 0 0 14px;
-      font-size: clamp(1.85rem, 3vw, 2.8rem);
-      line-height: 1.14;
-      letter-spacing: -0.02em;
-    }
-
-    .section-head p {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: 1rem;
-    }
-
-    .card-grid {
-      display: grid;
-      gap: 20px;
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .grid-4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    .card {
-      background:
-        linear-gradient(145deg, var(--bg-card), var(--bg-card-2));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-      transition:
-        transform var(--transition),
-        border-color var(--transition),
-        box-shadow var(--transition);
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #3d7246;
-      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.30);
-    }
-
-    .card-number,
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: rgba(95, 224, 111, 0.10);
-      border: 1px solid rgba(95, 224, 111, 0.14);
-      color: var(--green-bright);
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 1.12rem;
-      line-height: 1.35;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: 0.97rem;
-    }
-
-    .workflow-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      overflow: hidden;
-      background: #0e1510;
-      box-shadow: var(--shadow);
-    }
-
-    .workflow-step {
-      padding: 26px 20px;
-      border-right: 1px solid var(--line);
-      min-height: 215px;
-      background: #0f1712;
-      transition: background var(--transition);
-    }
-
-    .workflow-step:last-child {
-      border-right: 0;
-    }
-
-    .workflow-step:hover {
-      background: #131d16;
-    }
-
-    .step-index {
-      color: var(--green-bright);
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .workflow-step h3 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-    }
-
-    .workflow-step p {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: 0.93rem;
-    }
-
-    .scope-box {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      background: #101812;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .scope-col {
-      padding: 28px;
-    }
-
-    .scope-col + .scope-col {
-      border-left: 1px solid var(--line);
-      background: #0d1510;
-    }
-
-    .scope-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .scope-top h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .status-badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border: 1px solid transparent;
-    }
-
-    .status-badge.now {
-      background: #dff5e3;
-      color: #126928;
-      border-color: #bbeac4;
-    }
-
-    .status-badge.future {
-      background: #1b241d;
-      color: #d5ddd6;
-      border-color: #313d34;
-    }
-
-    .feature-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 12px;
-    }
-
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      color: var(--text-soft);
-      font-size: 0.96rem;
-    }
-
-    .check {
-      width: 22px;
-      height: 22px;
-      min-width: 22px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      margin-top: 2px;
-      background: rgba(95, 224, 111, 0.10);
-      color: var(--green-bright);
-      font-weight: 900;
-      font-size: 0.82rem;
-    }
-
-    .founder-card {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      overflow: hidden;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #101812, #151f17);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .founder-visual {
-      padding: 28px;
-      background:
-        radial-gradient(circle at 80% 20%, rgba(95, 224, 111, 0.18), transparent 34%),
-        linear-gradient(145deg, #08100a, #14311c);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      min-height: 100%;
-    }
-
-    .founder-mini-logo {
-      width: 78px;
-      border-radius: 16px;
-      background: #ffffff;
-      padding: 8px;
-      margin-bottom: auto;
-      border: 1px solid #dce2dd;
-    }
-
-    .founder-role {
-      color: var(--green-bright);
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    .founder-visual h3 {
-      margin: 0;
-      font-size: 1.5rem;
-      line-height: 1.2;
-    }
-
-    .founder-content {
-      padding: 32px;
-    }
-
-    .founder-content p {
-      margin: 0 0 18px;
-      color: var(--text-soft);
-    }
-
-    .credential-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .credential {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #19241b;
-      border: 1px solid #2d3a30;
-      color: #d0d7d1;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .cta {
-      padding: 88px 0;
-      background:
-        radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.16), transparent 24%),
-        linear-gradient(135deg, #39b54a, #5fe06f);
-      color: #081009;
-    }
-
-    .cta-box {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
-      align-items: center;
-    }
-
-    .cta h2 {
-      margin: 0 0 16px;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-    }
-
-    .cta p {
-      margin: 0;
-      color: #143819;
-      font-size: 1.02rem;
-      max-width: 62ch;
-    }
-
-    .cta-actions {
-      display: flex;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .cta .btn-primary {
-      color: #ffffff;
-      background: #081009;
-      border-color: #081009;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
-    }
-
-    .cta .btn-primary:hover {
-      background: #101812;
-      border-color: #101812;
-    }
-
-    .cta .btn-secondary {
-      color: #081009;
-      background: rgba(255, 255, 255, 0.16);
-      border-color: rgba(8, 16, 9, 0.25);
-    }
-
-    .cta .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.24);
-      border-color: rgba(8, 16, 9, 0.40);
-    }
-
-    footer {
-      padding: 28px 0 34px;
-      background: #050806;
-      border-top: 1px solid #182219;
-      color: #94a095;
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .footer-logo {
-      width: 42px;
-      border-radius: 10px;
-      background: #ffffff;
-      padding: 4px;
-      border: 1px solid #dce2dd;
-    }
-
-    .footer-name {
-      color: #ffffff;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .footer-meta {
-      font-size: 0.88rem;
-      color: #95a097;
-    }
-
-    .footer-right {
-      font-size: 0.88rem;
-      text-align: right;
-    }
-
-    @media (max-width: 1100px) {
-      .hero-grid,
-      .cta-box,
-      .founder-card {
-        grid-template-columns: 1fr;
-      }
-
-      .window-body {
-        grid-template-columns: 64px 1fr;
-      }
-
-      .side-panel {
-        grid-column: 1 / -1;
-        border-left: 0;
-        border-top: 1px solid #202d23;
-      }
-
-      .workflow-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .workflow-step {
-        border-right: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-      }
-
-      .workflow-step:nth-child(2n) {
-        border-right: 0;
-      }
-
-      .workflow-step:last-child {
-        border-bottom: 0;
-      }
-
-      .grid-4 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 860px) {
-      .header-inner {
-        flex-wrap: wrap;
-        padding: 14px 0;
-      }
-
-      .nav-toggle {
-        display: inline-flex;
-      }
-
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 8px 0 0;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .header-actions {
-        margin-left: auto;
-      }
-
-      .scope-box {
-        grid-template-columns: 1fr;
-      }
-
-      .scope-col + .scope-col {
-        border-left: 0;
-        border-top: 1px solid var(--line);
-      }
-
-      .grid-3,
-      .grid-4 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .container {
-        width: min(var(--container), calc(100% - 24px));
-      }
-
-      .hero {
-        padding-top: 52px;
-      }
-
-      section {
-        padding: 66px 0;
-      }
-
-      .header-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .hero-actions,
-      .cta-actions {
-        width: 100%;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .window-body {
-        grid-template-columns: 1fr;
-      }
-
-      .app-rail {
-        flex-direction: row;
-        justify-content: center;
-        border-right: 0;
-        border-bottom: 1px solid #202d23;
-      }
-
-      .drawing-toolbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .workflow-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .workflow-step {
-        border-right: 0;
-      }
-
-      .footer-inner,
-      .footer-left {
-        align-items: flex-start;
-      }
-
-      .footer-right {
-        text-align: left;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-        animation: none !important;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050705">
+<title>R3QBot | AI-Assisted Quantity Take-Off by R3PLEX Projects Solution</title>
+<meta name="description" content="R3QBot transforms construction drawings into a connected, reviewable and auditable quantity knowledge base.">
+<meta property="og:title" content="R3QBot | AI-Assisted Quantity Take-Off">
+<meta property="og:description" content="Construction drawings into traceable quantities. Human-reviewed AI assistance, deterministic QS calculation and an audit trail.">
+<meta property="og:type" content="website">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;src:url('assets/fonts/inter-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;src:url('assets/fonts/inter-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;src:url('assets/fonts/inter-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;src:url('assets/fonts/inter-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;src:url('assets/fonts/space-grotesk-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:600;src:url('assets/fonts/space-grotesk-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;src:url('assets/fonts/space-grotesk-latin.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url('assets/fonts/jetbrains-mono-latin-500.woff2') format('woff2');font-display:swap}
+/* ===== Brand tokens — shared with R3PLEX site Rev02; accents sampled from neon-r3plex-logo.png ===== */
+:root{
+  --g:#6BF905; --g-hi:#8AFA07; --g-deep:#34F403; --g-dim:#3f8f0a;
+  --g-a06:rgba(107,249,5,.06); --g-a08:rgba(107,249,5,.08); --g-a14:rgba(107,249,5,.14); --g-a25:rgba(107,249,5,.25);
+  --amber:#ffc65c; --amber-a:rgba(255,198,92,.1);
+  --bg:#050705; --bg-2:#080b08; --surface:#0c100c; --surface-2:#111611; --graphite:#181e18;
+  --line:rgba(255,255,255,.08); --line-g:rgba(107,249,5,.2);
+  --text:#f4f7f3; --muted:#a3ada2; --muted-2:#7c877b;
+  --radius:20px; --radius-lg:28px; --max:1240px;
+  --font:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:'Space Grotesk','Inter',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.container{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+.skip-link{position:fixed;left:16px;top:-60px;z-index:3000;padding:10px 14px;background:var(--g);color:#061000;border-radius:10px;font-weight:700;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:16px}
+:focus-visible{outline:2px solid var(--g);outline-offset:3px;border-radius:6px}
+
+/* Official logo — original file; transparent margins clipped by CSS only */
+.logo{--h:50px;display:block;position:relative;overflow:hidden;height:var(--h);width:calc(var(--h)*1125/723);flex:0 0 auto}
+.logo img{position:absolute;max-width:none;height:calc(var(--h)*1087/723);width:auto;left:calc(var(--h)*-161/723);top:calc(var(--h)*-136/723)}
+
+
+/* Type */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--g);font:600 .74rem/1 var(--display);letter-spacing:.2em;text-transform:uppercase}
+.case-product{text-transform:none}
+.eyebrow::before{content:"";width:22px;height:2px;background:linear-gradient(90deg,var(--g),transparent);box-shadow:0 0 10px var(--g)}
+h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.025em;line-height:1.08;margin:0}
+.h2{font-size:clamp(2rem,4.2vw,3.3rem);margin:16px 0 18px;max-width:860px}
+.lead{color:var(--muted);font-size:clamp(1rem,1.4vw,1.12rem);max-width:720px;margin:0}
+.hl{color:var(--g);text-shadow:0 0 28px rgba(107,249,5,.35)}
+.section{padding:clamp(80px,10vw,128px) 0;position:relative;scroll-margin-top:80px}
+.mono{font-family:var(--mono)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 22px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s,background .25s,border-color .25s;cursor:pointer}
+.btn svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn-primary{background:var(--g);color:#061000;box-shadow:0 0 0 1px rgba(107,249,5,.5),0 8px 30px rgba(107,249,5,.22)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 0 1px var(--g-hi),0 12px 40px rgba(107,249,5,.38)}
+.btn-ghost{border-color:rgba(107,249,5,.45);background:rgba(107,249,5,.03)}
+.btn-ghost:hover{border-color:var(--g);background:var(--g-a08);transform:translateY(-2px)}
+.btn-sm{min-height:40px;padding:0 16px;font-size:.88rem;border-radius:10px}
+
+/* Header */
+.site-header{position:fixed;inset:0 0 auto 0;z-index:1000;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.site-header.scrolled{background:rgba(5,7,5,.8);backdrop-filter:blur(18px) saturate(140%);border-color:var(--line)}
+.nav{display:flex;align-items:center;gap:24px;min-height:80px}
+.brand{display:flex;align-items:center;gap:16px;text-decoration:none}
+.brand .sep{width:1px;height:34px;background:var(--line-g)}
+.brand-name{font:700 1.35rem/1 var(--display);letter-spacing:-.02em}
+.brand-name b{color:var(--g);font-weight:700}
+.brand-sub{display:block;margin-top:4px;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+.nav > nav{margin-left:auto}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+.nav-links a{display:inline-flex;align-items:center;gap:6px;padding:10px 13px;border-radius:10px;color:#cfd6ce;font-size:.92rem;font-weight:500;text-decoration:none;position:relative;transition:color .2s}
+.nav-links a::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;background:var(--g);box-shadow:0 0 8px var(--g);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-links a.ext::after{display:none}
+.nav-links a.ext{color:var(--muted)}
+.nav-links a.ext:hover{color:var(--g)}
+.nav-cta{margin-left:8px}
+.menu-btn{display:none;margin-left:auto;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-g);background:var(--surface);cursor:pointer;place-items:center}
+.menu-btn svg{width:22px;height:22px}
+
+/* Hero */
+.hero{position:relative;padding:150px 0 40px;overflow:hidden;isolation:isolate;text-align:center}
+.hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hero-bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(107,249,5,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(107,249,5,.05) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 15%,transparent 72%)}
+.hero-bg::after{content:"";position:absolute;width:1100px;height:700px;left:50%;top:-240px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(107,249,5,.17),transparent 62%)}
+.hero .eyebrow{justify-content:center}
+.hero h1{font-size:clamp(2.7rem,6.4vw,5.6rem);line-height:.98;letter-spacing:-.045em;margin:22px auto 24px;max-width:1000px}
+.hero-copy{color:#c4ccc3;font-size:clamp(1.03rem,1.5vw,1.18rem);max-width:760px;margin:0 auto}
+.hero-copy + .hero-copy{margin-top:12px;color:var(--muted);font-size:1rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;justify-content:center}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin:30px 0 0;padding:0;list-style:none;color:#cfd6ce;font-size:.9rem}
+.trust li{display:flex;align-items:center;gap:8px}
+.trust svg{width:18px;height:18px;color:var(--g)}
+
+/* Workspace demo */
+.stage{perspective:1800px;margin-top:64px}
+.ws{--tilt:14deg;text-align:left;border-radius:20px;border:1px solid var(--line-g);background:linear-gradient(180deg,#0b100b,#070a07);box-shadow:0 50px 120px rgba(0,0,0,.65),0 0 0 1px rgba(107,249,5,.05),0 -20px 80px rgba(107,249,5,.07);overflow:hidden;transform:rotateX(var(--tilt));transform-origin:50% 0;transition:transform .1s linear;position:relative}
+.ws-top{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.ws-top .dots{display:flex;gap:6px}.ws-top .dots i{width:10px;height:10px;border-radius:50%;background:#253025}.ws-top .dots i:first-child{background:var(--g)}
+.ws-top b{color:#fff;font-weight:600}
+.ws-top .demo{margin-left:auto;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,198,92,.35);background:var(--amber-a);color:var(--amber);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.ws-main{display:grid;grid-template-columns:56px 1fr 310px;min-height:470px}
+.rail{border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 0}
+.rail span{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--muted-2);border:1px solid transparent}
+.rail span.on{color:var(--g);background:var(--g-a08);border-color:var(--line-g)}
+.rail svg{width:18px;height:18px}
+.canvas{position:relative;display:flex;flex-direction:column;min-width:0}
+.toolbar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.seg{display:flex;padding:3px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.seg span{padding:5px 11px;border-radius:7px;font-size:.76rem;color:var(--muted)}
+.seg span.on{background:var(--g);color:#061000;font-weight:600}
+.tb-chip{padding:5px 10px;border-radius:8px;border:1px solid var(--line);font-size:.74rem;color:#cfd6ce;display:flex;align-items:center;gap:6px}
+.tb-chip.ok{border-color:var(--line-g);color:var(--g)}
+.tb-chip .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.tb-title{margin-left:auto;font-size:.74rem;color:var(--muted-2)}
+.plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(rgba(107,249,5,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(107,249,5,.035) 1px,transparent 1px);background-size:24px 24px}
+.plan{width:100%;max-width:640px;height:auto}
+.plan .wall{fill:none;stroke:#9aa59a;stroke-width:5;stroke-linejoin:miter}
+.plan .room{fill:rgba(255,255,255,.015);stroke:transparent;cursor:pointer;transition:fill .25s}
+.plan .room:hover{fill:rgba(107,249,5,.08)}
+.plan .room.sel{fill:rgba(107,249,5,.17);stroke:var(--g);stroke-width:2;filter:drop-shadow(0 0 8px rgba(107,249,5,.55))}
+.plan .room.appr{fill:rgba(107,249,5,.06)}
+.plan .room:focus-visible{outline:none;stroke:#fff;stroke-width:2}
+.plan .excl{fill:url(#hatch);stroke:none}
+.plan text{font-family:var(--font);pointer-events:none}
+.plan .rn{fill:#e9efe8;font-size:12px;font-weight:600;letter-spacing:.04em}
+.plan .ra{fill:var(--muted);font-size:11px;font-family:var(--mono)}
+.plan .room.sel + g .ra,.plan g.selg .ra{fill:var(--g)}
+.plan .vtx{fill:var(--bg);stroke:var(--g);stroke-width:2}
+.plan .dim{stroke:var(--g);stroke-width:1}
+.plan .wall,.plan .vtx,.plan .dim{pointer-events:none}
+.plan .dimt{fill:var(--g-hi);font-size:10px;font-family:var(--mono)}
+.plan .tick{fill:#6f7a6e;font-size:9px;font-family:var(--mono);letter-spacing:.06em}
+.canvas-foot{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:.76rem;color:var(--muted-2);flex-wrap:wrap}
+.canvas-foot .flow{color:#cfd6ce}
+.canvas-foot .flow b{color:var(--g);font-weight:600}
+.review{border-left:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px;background:rgba(255,255,255,.012)}
+.review .review-title{font-family:var(--display);letter-spacing:-.025em;line-height:1.08;font-weight:700;font-size:.95rem;display:flex;justify-content:space-between;align-items:center}
+.status{font:700 .64rem/1 var(--font);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:6px}
+.status.in{background:var(--amber-a);color:var(--amber);border:1px solid rgba(255,198,92,.3)}
+.status.ok{background:var(--g-a14);color:var(--g);border:1px solid var(--line-g)}
+.status.ai{background:rgba(140,170,255,.1);color:#a9bcff;border:1px solid rgba(140,170,255,.3)}
+.qty{padding:14px;border-radius:12px;background:var(--g-a06);border:1px solid var(--line-g)}
+.qty small{display:block;color:var(--muted-2);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.qty strong{font:600 1.9rem/1.1 var(--mono);color:#fff}
+.qty strong span{font-size:1rem;color:var(--g)}
+.qty em{display:block;font-style:normal;color:var(--muted);font-size:.74rem;font-family:var(--mono);margin-top:4px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;font-size:.8rem;margin:0}
+.kv dt{color:var(--muted-2)}
+.kv dd{margin:0;text-align:right;color:#dfe6de;font-family:var(--mono);font-size:.76rem}
+.rv-actions{display:flex;gap:8px;margin-top:auto}
+.rv-actions button{flex:1;min-height:38px;border-radius:9px;border:1px solid var(--line-g);background:transparent;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s}
+.rv-actions .approve{background:var(--g);color:#061000;border-color:var(--g)}
+.rv-actions .approve:disabled{opacity:.45;cursor:not-allowed}
+.rv-actions button:not(:disabled):hover{filter:brightness(1.1)}
+.log{font-size:.72rem;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;font-family:var(--mono);max-height:76px;overflow:auto}
+.log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log div::before{content:"› ";color:var(--g)}
+.ws-note{font-size:.76rem;color:var(--muted-2);text-align:center;margin-top:16px}
+.hero-note{font-size:.84rem;color:var(--muted);text-align:center;max-width:720px;margin:26px auto 0}
+
+/* Problem */
+.problem{border-top:1px solid var(--line);background:var(--bg-2)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
+.prob{position:relative;padding:30px 26px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);overflow:hidden;transition:border-color .3s,transform .3s var(--ease)}
+.prob:hover{border-color:var(--line-g);transform:translateY(-4px)}
+.prob .n{font:700 4.4rem/1 var(--display);color:transparent;-webkit-text-stroke:1px rgba(107,249,5,.45);letter-spacing:-.04em}
+.prob h3{font-size:1.25rem;margin:22px 0 10px}
+.prob p{color:var(--muted);margin:0;font-size:.93rem}
+.prob::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(107,249,5,.12),transparent 65%)}
+.contrast{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin-top:20px}
+.ct{padding:22px 24px;border-radius:var(--radius);border:1px solid var(--line);background:rgba(255,255,255,.015)}
+.ct.good{border-color:var(--line-g);background:linear-gradient(150deg,var(--g-a08),transparent)}
+.ct small{font:600 .7rem/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
+.ct.good small{color:var(--g)}
+.ct ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:7px;font-size:.9rem;color:#c7cfc6}
+.ct li{padding-left:20px;position:relative}
+.ct li::before{content:"×";position:absolute;left:0;color:#8a6a6a;font-weight:700}
+.ct.good li::before{content:"✓";color:var(--g)}
+.ct-arrow{display:grid;place-items:center;color:var(--g)}
+.ct-arrow svg{width:30px;height:30px}
+
+/* Workflow */
+.wf{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;margin-top:56px;align-items:start}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px;position:relative}
+.steps::before{content:"";position:absolute;left:27px;top:28px;bottom:28px;width:2px;background:rgba(255,255,255,.08)}
+.steps .bar{position:absolute;left:27px;top:28px;width:2px;background:var(--g);box-shadow:0 0 10px var(--g);transition:height .5s var(--ease)}
+.step{position:relative;display:grid;grid-template-columns:56px 1fr;gap:16px;width:100%;text-align:left;padding:14px 16px 14px 0;border:1px solid transparent;border-radius:16px;background:none;cursor:pointer;transition:background .25s,border-color .25s}
+.step .k{position:relative;z-index:1;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--muted);font:700 .9rem/1 var(--display);transition:all .3s}
+.step .step-title{display:block;font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.08;font-size:1.08rem;margin:4px 0 4px;color:#cfd6ce;transition:color .25s}
+.step .step-description{display:block;margin:0;color:var(--muted-2);font-size:.88rem;transition:color .25s}
+.step:hover .step-title{color:#fff}
+.step[aria-selected="true"]{background:var(--surface);border-color:var(--line-g)}
+.step[aria-selected="true"] .k{background:var(--g);color:#061000;border-color:var(--g);box-shadow:0 0 22px rgba(107,249,5,.45)}
+.step[aria-selected="true"] .step-title{color:#fff}
+.step[aria-selected="true"] .step-description{color:var(--muted)}
+.step.done .k{color:var(--g);border-color:var(--line-g)}
+.wf-panel{position:sticky;top:110px;border-radius:var(--radius-lg);border:1px solid var(--line-g);background:linear-gradient(rgba(107,249,5,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(107,249,5,.04) 1px,transparent 1px),#080b08;background-size:28px 28px;overflow:hidden}
+.wf-panel .head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-size:.76rem;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase;background:rgba(5,7,5,.6)}
+.wf-panel .head b{color:var(--g)}
+.wf-view{padding:26px;min-height:360px;display:flex;flex-direction:column;justify-content:center}
+.wf-view[hidden]{display:none}
+.wf-view svg{width:100%;max-width:520px;margin:0 auto;height:auto}
+.wf-view .cap{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;justify-content:center}
+.wf-view .cap span{font-size:.74rem;padding:5px 10px;border-radius:8px;border:1px solid var(--line);color:#cfd6ce;background:rgba(5,7,5,.6)}
+.wf-view .cap span.g{border-color:var(--line-g);color:var(--g)}
+.wf-svg .s{stroke:#9aa59a;fill:none}
+.wf-svg .g{stroke:var(--g);fill:none}
+.wf-svg .gf{fill:rgba(107,249,5,.14);stroke:var(--g)}
+.wf-svg text{font-family:var(--font);fill:#cfd6ce;font-size:12px}
+.wf-svg .t-g{fill:var(--g)}
+.wf-svg .t-m{fill:var(--muted-2);font-size:10px}
+.wf-svg .mono{font-family:var(--mono)}
+
+/* Why — bento */
+.why{border-top:1px solid var(--line);background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(107,249,5,.07),transparent 70%),var(--bg-2)}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(220px,auto);gap:16px;margin-top:52px}
+.card{position:relative;padding:28px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);overflow:hidden;transition:border-color .3s,transform .3s var(--ease)}
+.card:hover{border-color:var(--line-g);transform:translateY(-3px)}
+.card .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--g-a08);border:1px solid var(--line-g);color:var(--g);margin-bottom:22px}
+.card .ic svg{width:24px;height:24px}
+.card h3{font-size:1.25rem;margin-bottom:10px}
+.card p{color:var(--muted);margin:0;font-size:.93rem}
+.card.wide{grid-column:span 2;display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;align-items:center;background:linear-gradient(150deg,rgba(107,249,5,.09),var(--surface) 55%);border-color:var(--line-g)}
+.chain{display:grid;gap:8px}
+.link{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:11px 14px;border-radius:12px;background:rgba(5,7,5,.7);border:1px solid var(--line);font-size:.84rem;position:relative}
+.link + .link::before{content:"";position:absolute;left:30px;top:-9px;width:2px;height:9px;background:var(--g-dim)}
+.link .li{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--g-a08);color:var(--g)}
+.link .li svg{width:17px;height:17px}
+.link b{display:block;font-weight:600}
+.link small{color:var(--muted-2);font-size:.74rem}
+.link .v{font-family:var(--mono);font-size:.76rem;color:var(--g)}
+.link.final{border-color:var(--line-g);background:var(--g-a08)}
+.card.tall{grid-row:span 2;display:flex;flex-direction:column}
+.calc{margin-top:24px;padding:16px;border-radius:12px;background:rgba(5,7,5,.75);border:1px solid var(--line);font-family:var(--mono);font-size:.8rem;color:#cfd6ce;line-height:1.9}
+.calc .c{color:var(--muted-2)}
+.calc .r{color:var(--g)}
+.repeat{margin-top:auto;padding-top:22px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.repeat b{display:block;color:#fff;font-family:var(--display);font-size:1rem;margin-bottom:4px}
+.card.tall .calc+.repeat{margin-top:auto}
+.ai-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.ai-split div{padding:12px;border-radius:10px;font-size:.78rem;border:1px solid var(--line)}
+.ai-split div b{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.ai-split .a b{color:#a9bcff}
+.ai-split .h{border-color:var(--line-g)}.ai-split .h b{color:var(--g)}
+.ai-split ul{margin:0;padding-left:16px;color:var(--muted)}
+.exports{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.exports span{font:600 .74rem/1 var(--mono);padding:8px 10px;border-radius:8px;border:1px solid var(--line-g);color:var(--g);background:var(--g-a06)}
+
+/* Phase 1 */
+.ph{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:52px}
+.pcard{padding:32px;border-radius:var(--radius-lg);border:1px solid var(--line);background:var(--surface)}
+.pcard.now{border-color:rgba(107,249,5,.45);background:linear-gradient(170deg,rgba(107,249,5,.1),var(--surface) 55%);box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.pcard .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.pcard h3{font-size:1.5rem}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line-g);background:var(--g-a08);color:var(--g)}
+.badge .d{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.badge.muted{color:var(--muted);border-color:var(--line);background:rgba(255,255,255,.03)}
+.plist{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:4px}
+.plist li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:.95rem;color:#d3dbd2}
+.plist li:last-child{border-bottom:0}
+.plist .m{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--g-a14);color:var(--g)}
+.plist .m svg{width:15px;height:15px}
+.pcard.next .plist li{color:var(--muted)}
+.pcard.next .plist .m{background:rgba(255,255,255,.04);color:var(--muted-2)}
+.boundary{margin-top:22px;color:var(--muted-2);font-size:.86rem}
+.flow-strip{margin-top:40px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;font:600 .76rem/1 var(--mono);color:var(--muted)}
+.flow-strip span{padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.flow-strip span.g{border-color:var(--line-g);color:var(--g);background:var(--g-a06)}
+.flow-strip i{color:var(--g-dim);font-style:normal}
+
+/* CTA */
+.cta{position:relative;border-radius:32px;padding:clamp(36px,6vw,72px);overflow:hidden;border:1px solid rgba(107,249,5,.35);background:radial-gradient(ellipse 60% 90% at 100% 0%,rgba(107,249,5,.2),transparent 60%),linear-gradient(150deg,#0d140d,#070a07);display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:center}
+.cta::before{content:"";position:absolute;right:-60px;bottom:-60px;width:320px;height:320px;background:linear-gradient(135deg,transparent 45%,rgba(107,249,5,.6) 45% 52%,transparent 52% 60%,rgba(107,249,5,.3) 60% 64%,transparent 64%);opacity:.5;pointer-events:none}
+.cta h2{font-size:clamp(2.2rem,4.8vw,4rem);line-height:1;margin:16px 0}
+.cta p{color:#b2bcb1;max-width:600px}
+.cta .hero-actions{justify-content:flex-start}
+.contact-card{position:relative;padding:26px;border-radius:18px;background:rgba(0,0,0,.35);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.contact-card .lbl{font:600 .68rem/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin:18px 0 6px}
+.contact-card .lbl:first-child{margin-top:0}
+.contact-card a{color:var(--g);font-weight:600;text-decoration:none;word-break:break-all}
+.contact-card div{color:#d6ddd5}
+.interest{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.interest span{font-size:.76rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:#cfd6ce}
+
+/* Footer */
+.footer{position:relative;border-top:1px solid var(--line);background:var(--bg-2)}
+.footer::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);box-shadow:0 0 18px var(--g);opacity:.7}
+.f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding:60px 0 40px}
+.f-brand .brand{margin-bottom:16px}
+.f-brand p{color:var(--muted);font-size:.9rem;max-width:340px;margin:0}
+.f-col h3{font:600 .74rem/1 var(--display);letter-spacing:.16em;text-transform:uppercase;margin:6px 0 18px}
+.f-col ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.f-col a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s}
+.f-col a:hover{color:var(--g)}
+.f-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:22px 0 96px;border-top:1px solid var(--line);color:var(--muted-2);font-size:.8rem}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.wf>*,.ph>*,.cta>*,.card.wide>*,.ws-main>*{min-width:0}
+
+/* Responsive */
+@media (max-width:1080px){
+  .ws-main{grid-template-columns:48px 1fr 270px}
+  .bento{grid-template-columns:1fr 1fr}
+  .card.wide{grid-column:span 2}
+  .card.tall{grid-row:auto}
+}
+@media (min-width:921px) and (max-width:1080px){
+  .nav{gap:10px}
+  .brand{gap:8px;flex-shrink:0}
+  .brand-sub{font-size:.58rem;letter-spacing:.06em;white-space:nowrap}
+  .nav-links a{padding-inline:7px;font-size:.82rem;white-space:nowrap}
+  .nav-cta{margin-left:0;padding-inline:12px;white-space:nowrap}
+}
+@media (max-width:920px){
+  /* Keep the fixed mobile menu relative to the viewport after scrolling. */
+  .site-header.scrolled{background:rgba(5,7,5,.98);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav > nav{position:absolute;margin-left:0}
+  .menu-btn{display:grid}
+  .nav-cta.desktop{display:none}
+  .nav-links{position:fixed;inset:80px 0 0 0;flex-direction:column;align-items:stretch;padding:18px 24px 40px;background:rgba(5,7,5,.98);backdrop-filter:blur(16px);overflow-y:auto;transform:translateX(100%);transition:transform .35s var(--ease)}
+  .nav-links.open{transform:none}
+  .nav-links a{width:100%;justify-content:space-between;padding:16px 6px;font-size:1.05rem;border-bottom:1px solid var(--line);border-radius:0}
+  .nav-links a::after{display:none}
+  .nav-links .mobile-cta a{justify-content:center;border:0;margin-top:18px;border-radius:12px;color:#061000}
+  .ws{--tilt:0deg !important}
+  .ws-main{grid-template-columns:1fr}
+  .rail{display:none}
+  .review{border-left:0;border-top:1px solid var(--line)}
+  .wf,.ph,.cta,.contrast{grid-template-columns:1fr}
+  .ct-arrow{transform:rotate(90deg)}
+  .wf-panel{position:relative;top:0}
+  .prob-grid{grid-template-columns:1fr 1fr}
+  .f-grid{grid-template-columns:1fr 1fr}
+}
+@media (min-width:921px){.nav-links .mobile-cta{display:none}}
+@media (max-width:620px){
+  .container{width:calc(100% - 32px)}
+  .nav{min-height:70px}
+  .logo{--h:38px}
+  .brand{gap:12px}.brand .sep{height:28px}
+  .brand-name{font-size:1.15rem}.brand-sub{display:none}
+  .nav-links{inset:70px 0 0 0}
+  .hero{padding-top:118px}
+  .hero h1{font-size:clamp(2.4rem,11.5vw,3.3rem)}
+  .hero .eyebrow::before{display:none}
+  .hero .eyebrow{text-align:center;line-height:1.5}
+  .hero-actions .btn{flex:1 1 100%}
+  .trust{flex-direction:column;align-items:center;gap:8px}
+  .tb-title{display:none}
+  .plan-wrap{padding:8px}
+  .prob-grid,.bento{grid-template-columns:1fr}
+  .card.wide{grid-column:auto;grid-template-columns:1fr}
+  .ai-split{grid-template-columns:1fr}
+  .wf-view{padding:16px;min-height:auto}
+  .step{padding-right:8px}
+  .f-grid{grid-template-columns:1fr;gap:30px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .ws{--tilt:0deg !important}
+}
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#top" class="brand" aria-label="R3QBOT home">
-        <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="brand-logo" />
-        <div class="brand-text">
-          <div class="brand-name">R3QBOT</div>
-          <div class="brand-subtitle">by R3PLEX Projects Solution</div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></symbol>
+    <symbol id="i-chevr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4" stroke-linecap="round"/></symbol>
+    <symbol id="i-sigma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 5H6l6 7-6 7h12"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4" stroke-linecap="round"/></symbol>
+    <symbol id="i-poly" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 7 12 3l8 5-2 11H6z"/><circle cx="4" cy="7" r="1.6" fill="currentColor"/><circle cx="20" cy="8" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 11 12 4l9 7v9H3z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m12 2 10 6-10 6L2 8z"/><path d="m2 13 10 6 10-6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="R3QBot by R3PLEX Projects Solution — home">
+      <span class="logo"><img src="neon-r3plex-logo.png" alt="R3PLEX Projects Solution" width="1447" height="1087"></span>
+      <span class="sep" aria-hidden="true"></span>
+      <span><span class="brand-name">R3<b>Q</b>Bot</span><span class="brand-sub">by R3PLEX Projects Solution</span></span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#why">Why R3QBot</a></li>
+        <li><a href="#phase1">Phase 1</a></li>
+        <li><a class="ext" href="https://r3plex-projects-solution.github.io/r3plex-site/" target="_blank" rel="noopener noreferrer">R3PLEX ↗</a></li>
+        <li class="mobile-cta"><a class="btn btn-primary" href="#contact">Get in Touch</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta desktop" href="#contact">Get in Touch <svg><use href="#i-arrow"/></svg></a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="eyebrow reveal">AI-assisted construction technology</div>
+    <h1 class="reveal d1">Construction drawings into <span class="hl">traceable quantities.</span></h1>
+    <p class="hero-copy reveal d2">R3QBot transforms construction drawings into a connected, reviewable and auditable quantity knowledge base. It links drawings, details, schedules, revisions, measurable elements, quantities, assumptions, deviations and professional decisions within one workspace.</p>
+    <p class="hero-copy reveal d2">Built for quantity surveyors, estimators and project teams. AI assists interpretation, but professional review remains in control.</p>
+    <div class="hero-actions reveal d3">
+      <a class="btn btn-primary" href="#phase1">Explore Phase 1 MVP <svg><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="#workflow">See How It Works</a>
+    </div>
+    <ul class="trust reveal d3">
+      <li><svg><use href="#i-check"/></svg>Human-reviewed AI assistance</li>
+      <li><svg><use href="#i-check"/></svg>Deterministic QS calculations</li>
+      <li><svg><use href="#i-check"/></svg>Structured export and audit trail</li>
+    </ul>
+
+    <div class="stage reveal">
+      <div class="ws" id="ws">
+        <div class="ws-top">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span><b>R3QBot Workspace</b> — Floor Area Review</span>
+          <span class="demo">Concept demo · sample data</span>
         </div>
+        <div class="ws-main">
+          <div class="rail" aria-hidden="true">
+            <span><svg><use href="#i-home"/></svg></span>
+            <span class="on"><svg><use href="#i-file"/></svg></span>
+            <span><svg><use href="#i-grid"/></svg></span>
+            <span><svg><use href="#i-list"/></svg></span>
+            <span><svg><use href="#i-history"/></svg></span>
+          </div>
+          <div class="canvas">
+            <div class="toolbar">
+              <div class="seg" aria-hidden="true"><span class="on">Area</span><span>Count</span><span>Length</span></div>
+              <span class="tb-chip ok"><span class="d"></span>Scale 1:100 confirmed</span>
+              <span class="tb-chip"><span class="mono">A-102</span> · Rev 03</span>
+              <span class="tb-title">Architectural Floor Plan — Level 2</span>
+            </div>
+            <div class="plan-wrap">
+              <svg class="plan" id="plan" viewBox="0 0 520 420" role="group" aria-label="Sample floor plan. Select a room to review its quantity."></svg>
+            </div>
+            <div class="canvas-foot">
+              <span class="flow"><b>AI suggestion</b> → Human review → <b>Approved quantity</b></span>
+              <span id="progress">0 of 6 regions approved</span>
+            </div>
+          </div>
+          <aside class="review" aria-live="polite">
+            <div class="review-title">Review panel <span class="status in" id="rv-status">In review</span></div>
+            <div class="qty"><small id="rv-name">Room 02</small><strong id="rv-qty">18.65 <span>m²</span></strong><em id="rv-calc">5.000 × 3.730 m</em></div>
+            <dl class="kv">
+              <dt>Classification</dt><dd id="rv-class">Floor Area / Internal</dd>
+              <dt>Source page</dt><dd>A-102</dd>
+              <dt>Revision</dt><dd>Rev 03</dd>
+              <dt>Origin</dt><dd id="rv-origin">AI suggestion</dd>
+              <dt>Confidence</dt><dd id="rv-conf">0.91</dd>
+              <dt>Rule</dt><dd>Floor Area</dd>
+            </dl>
+            <div class="rv-actions">
+              <button type="button" id="rv-reject">Reject</button>
+              <button type="button" class="approve" id="rv-approve">Approve</button>
+            </div>
+            <div class="log" id="rv-log" role="group" aria-label="Review history"><div>A-102 Rev 03 loaded · scale 1:100 confirmed</div></div>
+          </aside>
+        </div>
+      </div>
+      <p class="ws-note">Try it: select a room, then approve or reject. Illustrative concept with sample data, not the R3QBot application.</p>
+    </div>
+    <p class="hero-note reveal">Every AI-generated quantity, link, assumption, deviation or warning retains source reference, status and review history.</p>
+  </div>
+</section>
+
+<!-- ===================== PROBLEM ===================== -->
+<section class="section problem" id="problem">
+  <div class="container">
+    <div class="eyebrow reveal">The problem</div>
+    <h2 class="h2 reveal">Construction quantity take-off is still <span class="hl">slow, fragmented and hard to audit.</span></h2>
+    <p class="lead reveal">Many professionals still work across PDFs, spreadsheets, manual tracing and disconnected notes. This creates repeated effort, weak traceability and higher risk during tender and review.</p>
+    <div class="prob-grid">
+      <article class="prob reveal"><div class="n">01</div><h3>Manual and repetitive</h3><p>Quantity surveyors and estimators spend significant time tracing, measuring, checking and re-entering the same information across tools.</p></article>
+      <article class="prob reveal d1"><div class="n">02</div><h3>Weak traceability</h3><p>Spreadsheet totals often do not clearly show which drawing, page, room, assumption or revision supports each quantity.</p></article>
+      <article class="prob reveal d2"><div class="n">03</div><h3>Pressure to move faster</h3><p>Short tender timelines increase the risk of missed regions, duplicated measurement and unclear professional decisions.</p></article>
+    </div>
+    <div class="contrast reveal">
+      <div class="ct"><small>Today</small><ul><li>PDFs, spreadsheets and notes in separate places</li><li>Totals without a visible source</li><li>Decisions recorded informally, if at all</li></ul></div>
+      <div class="ct-arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></div>
+      <div class="ct good"><small>With <span class="case-product">R3QBot</span></small><ul><li>The drawing viewer at the centre of the workflow</li><li>Each quantity linked to page, revision and geometry</li><li>Assumptions, deviations and approvals on record</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORKFLOW ===================== -->
+<section class="section" id="workflow">
+  <div class="container">
+    <div class="eyebrow reveal">Core workflow</div>
+    <h2 class="h2 reveal">R3QBot keeps the <span class="hl">drawing viewer</span> at the centre of the workflow.</h2>
+    <p class="lead reveal">The product follows a disciplined process: AI assistance where useful, deterministic calculation where required, and human review before approval and export.</p>
+    <div class="wf">
+      <div class="steps" role="tablist" aria-label="Workflow steps" aria-orientation="vertical">
+        <span class="bar" id="wf-bar" aria-hidden="true"></span>
+        <button class="step reveal" role="tab" id="st-1" aria-controls="wv-1" aria-selected="true"><span class="k">01</span><span><span class="step-title">Upload and review</span><span class="step-description">Open multi-page construction drawings, confirm metadata and establish the working drawing context.</span></span></button>
+        <button class="step reveal" role="tab" id="st-2" aria-controls="wv-2" aria-selected="false" tabindex="-1"><span class="k">02</span><span><span class="step-title">Calibrate scale</span><span class="step-description">Set or confirm drawing scale so the measurement basis is visible and reliable.</span></span></button>
+        <button class="step reveal" role="tab" id="st-3" aria-controls="wv-3" aria-selected="false" tabindex="-1"><span class="k">03</span><span><span class="step-title">Detect or draw geometry</span><span class="step-description">AI may suggest measurable regions, but users can always draw, edit, split, merge or correct manually.</span></span></button>
+        <button class="step reveal" role="tab" id="st-4" aria-controls="wv-4" aria-selected="false" tabindex="-1"><span class="k">04</span><span><span class="step-title">Review and approve</span><span class="step-description">Check quantities, record assumptions, deviations and warnings, then approve results with source traceability.</span></span></button>
+        <button class="step reveal" role="tab" id="st-5" aria-controls="wv-5" aria-selected="false" tabindex="-1"><span class="k">05</span><span><span class="step-title">Export with audit trail</span><span class="step-description">Export approved quantities and registers to Excel or CSV while preserving revision and decision history.</span></span></button>
+      </div>
+
+      <div class="wf-panel reveal d1">
+        <div class="head"><span>Step <b id="wf-num">01</b> / 05</span><span>Illustration</span></div>
+
+        <div class="wf-view" role="tabpanel" id="wv-1" aria-labelledby="st-1">
+          <svg class="wf-svg" viewBox="0 0 520 260" aria-hidden="true">
+            <g transform="translate(150 30)"><rect class="s" x="40" y="0" width="150" height="190" rx="6" opacity=".35"/><rect class="s" x="20" y="10" width="150" height="190" rx="6" opacity=".6"/><rect class="g" x="0" y="20" width="150" height="190" rx="6" fill="#0b100b"/>
+            <path class="s" d="M20 50h110v90H20zM75 50v90M20 95h55" stroke-width="3" opacity=".8"/><rect class="s" x="20" y="160" width="110" height="34" opacity=".5"/><text x="26" y="182" class="t-m mono">A-102 · Rev 03</text></g>
+            <g transform="translate(340 60)"><text class="t-m">PAGES</text><text y="22">A-101 Ground floor</text><text y="44" class="t-g">A-102 Level 2 ✓</text><text y="66">A-103 Roof</text><text y="98" class="t-m">METADATA CONFIRMED</text></g>
+          </svg>
+          <div class="cap"><span>Multi-page PDF</span><span>Page selection</span><span class="g">Metadata confirmed</span></div>
+        </div>
+
+        <div class="wf-view" role="tabpanel" id="wv-2" aria-labelledby="st-2" hidden>
+          <svg class="wf-svg" viewBox="0 0 520 260" aria-hidden="true">
+            <path class="s" d="M60 60h400v140H60z" stroke-width="4"/>
+            <path class="g" d="M60 40h400M60 32v16M460 32v16" stroke-width="1.5"/>
+            <rect x="200" y="22" width="120" height="22" rx="4" fill="#080b08"/><text x="260" y="38" text-anchor="middle" class="t-g mono">10 000 mm</text>
+            <circle cx="60" cy="40" r="5" fill="#050705" stroke="#6BF905" stroke-width="2"/><circle cx="460" cy="40" r="5" fill="#050705" stroke="#6BF905" stroke-width="2"/>
+            <g transform="translate(150 225)"><rect width="220" height="30" rx="8" fill="rgba(107,249,5,.1)" stroke="#6BF905"/><text x="110" y="20" text-anchor="middle" class="t-g">Scale 1:100 · confirmed</text></g>
+            <text x="260" y="135" text-anchor="middle" class="t-m">Check against a printed dimension, not the title block alone</text>
+          </svg>
+          <div class="cap"><span>Two-point calibration</span><span class="g">Measurement basis visible</span></div>
+        </div>
+
+        <div class="wf-view" role="tabpanel" id="wv-3" aria-labelledby="st-3" hidden>
+          <svg class="wf-svg" viewBox="0 0 520 260" aria-hidden="true">
+            <path class="s" d="M40 30h440v200H40zM240 30v200M240 130h240" stroke-width="5"/>
+            <path class="gf" d="M48 38h184v184H48z" stroke-dasharray="6 4" stroke-width="1.5"/>
+            <text x="140" y="125" text-anchor="middle" class="t-g">AI suggestion</text><text x="140" y="143" text-anchor="middle" class="t-m">candidate region</text>
+            <path class="gf" d="M248 38h224v84H248z" stroke-width="2"/>
+            <g fill="#050705" stroke="#6BF905" stroke-width="2"><circle cx="248" cy="38" r="5"/><circle cx="472" cy="38" r="5"/><circle cx="472" cy="122" r="5"/><circle cx="248" cy="122" r="5"/></g>
+            <text x="360" y="85" text-anchor="middle">Drawn manually</text>
+            <text x="360" y="185" text-anchor="middle" class="t-m">Edit · split · merge · correct</text>
+          </svg>
+          <div class="cap"><span>AI-suggested regions</span><span>Manual polygons</span><span class="g">User always in control</span></div>
+        </div>
+
+        <div class="wf-view" role="tabpanel" id="wv-4" aria-labelledby="st-4" hidden>
+          <svg class="wf-svg" viewBox="0 0 520 260" aria-hidden="true">
+            <g transform="translate(70 20)">
+              <rect width="380" height="220" rx="12" fill="#0b100b" stroke="rgba(107,249,5,.3)"/>
+              <text x="20" y="32">Room 02 · 18.65 m²</text><rect x="268" y="16" width="92" height="22" rx="5" fill="rgba(255,198,92,.12)" stroke="rgba(255,198,92,.4)"/><text x="314" y="31" text-anchor="middle" style="fill:#ffc65c;font-size:10px;font-weight:700">IN REVIEW</text>
+              <path d="M20 50h340" stroke="rgba(255,255,255,.08)"/>
+              <text x="20" y="76" class="t-m">ASSUMPTION</text><text x="120" y="76">Measured to internal face of wall</text>
+              <text x="20" y="104" class="t-m">DEVIATION</text><text x="120" y="104">None recorded</text>
+              <text x="20" y="132" class="t-m">WARNING</text><text x="120" y="132" style="fill:#ffc65c">Column projection not deducted</text>
+              <rect x="20" y="164" width="160" height="36" rx="8" fill="none" stroke="rgba(107,249,5,.4)"/><text x="100" y="187" text-anchor="middle">Reject</text>
+              <rect x="200" y="164" width="160" height="36" rx="8" fill="#6BF905"/><text x="280" y="187" text-anchor="middle" style="fill:#061000;font-weight:700">Approve</text>
+            </g>
+          </svg>
+          <div class="cap"><span>Assumptions</span><span>Deviations</span><span>Warnings</span><span class="g">Professional approval</span></div>
+        </div>
+
+        <div class="wf-view" role="tabpanel" id="wv-5" aria-labelledby="st-5" hidden>
+          <svg class="wf-svg" viewBox="0 0 520 260" aria-hidden="true">
+            <g transform="translate(40 30)" font-family="JetBrains Mono, monospace">
+              <rect width="440" height="200" rx="10" fill="#0b100b" stroke="rgba(107,249,5,.3)"/>
+              <rect width="440" height="34" rx="10" fill="rgba(107,249,5,.1)"/>
+              <text x="16" y="22" class="t-g mono">Region</text><text x="150" y="22" class="t-g mono">Qty</text><text x="240" y="22" class="t-g mono">Source</text><text x="340" y="22" class="t-g mono">Status</text>
+              <g class="mono"><text x="16" y="62">Room 01</text><text x="150" y="62">12.40 m²</text><text x="240" y="62">A-102 R03</text><text x="340" y="62" class="t-g">Approved</text>
+              <text x="16" y="92">Room 02</text><text x="150" y="92">18.65 m²</text><text x="240" y="92">A-102 R03</text><text x="340" y="92" class="t-g">Approved</text>
+              <text x="16" y="122">Office</text><text x="150" y="122">16.10 m²</text><text x="240" y="122">A-102 R03</text><text x="340" y="122" class="t-g">Approved</text>
+              <text x="16" y="152" class="t-m">… audit: reviewer, time, rule, revision</text></g>
+              <path d="M16 170h408" stroke="rgba(255,255,255,.08)"/><text x="16" y="190" class="t-m">Sample rows only</text>
+            </g>
+          </svg>
+          <div class="cap"><span class="g">.xlsx</span><span class="g">.csv</span><span>Revision &amp; decision history preserved</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHY ===================== -->
+<section class="section why" id="why">
+  <div class="container">
+    <div class="eyebrow reveal"><span>Why <span class="case-product">R3QBot</span></span></div>
+    <h2 class="h2 reveal">Not just AI output — <span class="hl">a reviewable quantity knowledge base.</span></h2>
+    <p class="lead reveal">R3QBot is designed as an AI-assisted professional tool, not an automatic black box. It helps teams move faster without removing Quantity Surveyor judgement.</p>
+    <div class="bento">
+      <article class="card wide reveal">
+        <div>
+          <div class="ic"><svg><use href="#i-link"/></svg></div>
+          <h3>Drawing-linked traceability</h3>
+          <p>Every measurable item can remain linked to the source drawing, page, revision, geometry and decision history.</p>
+        </div>
+        <div class="chain" role="group" aria-label="Example traceability chain (sample data)">
+          <div class="link"><span class="li"><svg><use href="#i-file"/></svg></span><span><b>Source drawing</b><small>Architectural Floor Plan — Level 2</small></span><span class="v">A-102 · R03</span></div>
+          <div class="link"><span class="li"><svg><use href="#i-poly"/></svg></span><span><b>Geometry</b><small>Region · 4 vertices · scale 1:100</small></span><span class="v">Room 02</span></div>
+          <div class="link"><span class="li"><svg><use href="#i-sigma"/></svg></span><span><b>Quantity</b><small>Floor Area rule</small></span><span class="v">18.65 m²</span></div>
+          <div class="link final"><span class="li"><svg><use href="#i-user"/></svg></span><span><b>Decision</b><small>QS review recorded with history</small></span><span class="v">Approved</span></div>
+        </div>
+      </article>
+      <article class="card tall reveal d1">
+        <div class="ic"><svg><use href="#i-sigma"/></svg></div>
+        <h3>Deterministic calculation</h3>
+        <p>Final quantity outputs should come from confirmed geometry, explicit logic and repeatable calculation rules.</p>
+        <div class="calc mono" role="group" aria-label="Example calculation (sample data)"><span class="c">// confirmed geometry</span><br>w = 5.000 m<br>d = 3.730 m<br><span class="c">// rule: Floor Area</span><br>A = w × d<br><span class="r">A = 18.65 m²</span></div>
+        <div class="repeat"><b>Same geometry + same rule = same quantity.</b><span>Calculation runs on confirmed geometry and an explicit rule, so every figure can be checked and repeated.</span></div>
+      </article>
+      <article class="card reveal">
+        <div class="ic"><svg><use href="#i-shield"/></svg></div>
+        <h3>Human-reviewed AI</h3>
+        <p>AI may interpret, detect or suggest, but it does not replace professional review or approve quantities on its own.</p>
+        <div class="ai-split"><div class="a"><b>AI may</b><ul><li>Interpret</li><li>Detect</li><li>Suggest</li></ul></div><div class="h"><b>QS decides</b><ul><li>Review</li><li>Correct</li><li>Approve</li></ul></div></div>
+      </article>
+      <article class="card reveal d1">
+        <div class="ic"><svg><use href="#i-history"/></svg></div>
+        <h3>Audit and export readiness</h3>
+        <p>Structured export, revision control and audit records support transparent checking and downstream commercial use.</p>
+        <div class="exports"><span>.xlsx</span><span>.csv</span><span>audit log</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PHASE 1 ===================== -->
+<section class="section" id="phase1">
+  <div class="container">
+    <div class="eyebrow reveal">Phase 1 MVP</div>
+    <h2 class="h2 reveal">Start narrow. <span class="hl">Prove one real workflow properly.</span></h2>
+    <p class="lead reveal">The immediate goal is one complete and reliable workflow from PDF upload to professionally checked export. Floor area is the first commercial entry point.</p>
+    <div class="ph">
+      <article class="pcard now reveal">
+        <div class="top"><h3>What Phase 1 covers now</h3><span class="badge"><span class="d"></span>Current MVP</span></div>
+        <ul class="plist">
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Project creation and multi-page PDF viewing</li>
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Scale calibration and page review</li>
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Manual and AI-assisted floor-area region workflow</li>
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Geometry editing, room labels and classification</li>
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Assumption, deviation and warning records</li>
+          <li><span class="m"><svg><use href="#i-check"/></svg></span>Review, approval and Excel/CSV export</li>
+        </ul>
+      </article>
+      <article class="pcard next reveal d1">
+        <div class="top"><h3>What comes after</h3><span class="badge muted">Future scope</span></div>
+        <ul class="plist">
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Beams</li>
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Slabs</li>
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Columns</li>
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Walls, doors and windows</li>
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Civil, M&amp;E and broader quantity modules</li>
+          <li><span class="m"><svg><use href="#i-chevr"/></svg></span>Future cost, carbon, procurement and integration layers</li>
+        </ul>
+      </article>
+    </div>
+    <div class="flow-strip reveal" role="group" aria-label="Phase 1 workflow">
+      <span>Upload</span><i>→</i><span>Select drawing</span><i>→</i><span>Calibrate</span><i>→</i><span>Detect / measure</span><i>→</i><span>Classify</span><i>→</i><span>Calculate</span><i>→</i><span class="g">Review</span><i>→</i><span class="g">Approve</span><i>→</i><span>Export</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="section" id="contact" style="padding-top:20px">
+  <div class="container">
+    <div class="cta reveal">
+      <div>
+        <div class="eyebrow">Get in touch</div>
+        <h2>Interested in <span class="hl">R3QBot?</span></h2>
+        <p>R3QBot is being developed as a practical, human-reviewed AI platform for construction quantity take-off. If you are interested in pilot collaboration, product feedback or partnership opportunities, get in touch.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="mailto:ryanong.r3plex@gmail.com?subject=R3QBot%20Enquiry">Contact R3PLEX <svg><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" href="#top">Back to Top</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="lbl">Email</div><a href="mailto:ryanong.r3plex@gmail.com?subject=R3QBot%20Enquiry">ryanong.r3plex@gmail.com</a>
+        <div class="lbl">Developed by</div><div>R3PLEX Projects Solution</div>
+        <div class="lbl">Open to</div><div class="interest"><span>Pilot collaboration</span><span>Product feedback</span><span>Partnerships</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container f-grid">
+    <div class="f-brand">
+      <a class="brand" href="#top" aria-label="R3QBot — back to top">
+        <span class="logo"><img src="neon-r3plex-logo.png" alt="R3PLEX Projects Solution" width="1447" height="1087" loading="lazy"></span>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="brand-name">R3<b>Q</b>Bot</span>
       </a>
-
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
-
-      <nav class="nav-links" id="navLinks">
-        <a href="#problem">Problem</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#why">Why R3QBOT</a>
-        <a href="#phase1">Phase 1</a>
-        <a href="#founder">Founder</a>
-      </nav>
-
-      <div class="header-actions">
-        <a
-          class="btn btn-secondary"
-          href="https://r3plex-projects-solution.github.io/r3plex-site/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          R3PLEX ↗
-        </a>
-
-        <a class="btn btn-secondary" href="#why">Learn More</a>
-        <a class="btn btn-primary" href="#contact">Get in Touch</a>
-      </div>
+      <p>AI-assisted quantity take-off by R3PLEX Projects Solution.</p>
     </div>
-  </header>
+    <div class="f-col"><h3>Product</h3><ul><li><a href="#problem">Problem</a></li><li><a href="#workflow">Workflow</a></li><li><a href="#why">Why R3QBot</a></li><li><a href="#phase1">Phase 1</a></li></ul></div>
+    <div class="f-col"><h3>Company</h3><ul><li><a href="https://r3plex-projects-solution.github.io/r3plex-site/" target="_blank" rel="noopener noreferrer">R3PLEX Projects Solution ↗</a></li><li><a href="mailto:ryanong.r3plex@gmail.com?subject=R3QBot%20Enquiry">ryanong.r3plex@gmail.com</a></li><li><a href="#contact">Get in Touch</a></li></ul></div>
+  </div>
+  <div class="container f-bottom"><span>© <span id="year">2026</span> R3PLEX Projects Solution. All rights reserved.</span><span>R3QBot is a reviewable professional tool. Human approval remains required.</span></div>
+</footer>
 
-  <main id="top">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <div class="eyebrow">AI-assisted construction technology</div>
 
-          <h1>
-            Construction drawings into
-            <span class="accent">traceable quantities</span>.
-          </h1>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
 
-          <p class="hero-copy">
-            R3QBOT transforms construction drawings into a connected, reviewable and auditable quantity knowledge base. It links drawings, details, schedules, revisions, measurable elements, quantities, assumptions, deviations and professional decisions within one workspace.
-          </p>
+  /* Header */
+  const header = $('.site-header');
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 20);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
-          <p class="hero-note">
-            Built for quantity surveyors, estimators and project teams. AI assists interpretation, but professional review remains in control.
-          </p>
+  /* Mobile menu */
+  const menuBtn = $('.menu-btn'), nav = $('#primary-nav'), mpath = menuBtn.querySelector('path');
+  const mobileQuery = matchMedia('(max-width:920px)');
+  const setMenu = open => {
+    nav.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open);
+    menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    nav.inert = !open && mobileQuery.matches;
+    mpath.setAttribute('d', open ? 'M6 6l12 12M18 6 6 18' : 'M4 7h16M4 12h16M4 17h10');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  setMenu(false);
+  mobileQuery.addEventListener('change', () => setMenu(false));
+  menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#phase1">Explore Phase 1 MVP</a>
-            <a class="btn btn-secondary" href="#workflow">See How It Works</a>
-          </div>
+  /* Active nav */
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  if ('IntersectionObserver' in window) {
+    const so = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id)); }), {rootMargin:'-45% 0px -50% 0px'});
+    ['problem','workflow','why','phase1'].forEach(id => so.observe(document.getElementById(id)));
+  }
 
-          <div class="pill-row">
-            <div class="pill">Human-reviewed AI assistance</div>
-            <div class="pill">Deterministic QS calculations</div>
-            <div class="pill">Structured export and audit trail</div>
-          </div>
-        </div>
+  /* Reveal */
+  const rev = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) rev.forEach(r => r.classList.add('in'));
+  else { const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold:.12, rootMargin:'0px 0px -40px 0px'}); rev.forEach(r => io.observe(r)); }
 
-        <div class="hero-visual">
-          <div class="product-shell">
-            <div class="product-window">
-              <div class="window-top">
-                <span class="window-dot"></span>
-                <span class="window-dot"></span>
-                <span class="window-dot"></span>
-                <span class="window-title">R3QBOT Workspace — Floor Area Review</span>
-              </div>
+  /* Workspace tilt flattens as it scrolls into view */
+  const ws = $('#ws');
+  if (!reduce) {
+    const tilt = () => { const r = ws.getBoundingClientRect(); const p = Math.min(1, Math.max(0, 1 - (r.top - innerHeight * .25) / (innerHeight * .6))); ws.style.setProperty('--tilt', (14 * (1 - p)).toFixed(2) + 'deg'); };
+    addEventListener('scroll', tilt, {passive:true}); addEventListener('resize', tilt); tilt();
+  }
 
-              <div class="window-body">
-                <aside class="app-rail">
-                  <div class="rail-logo">R</div>
-                  <div class="rail-icon active">⌂</div>
-                  <div class="rail-icon">▣</div>
-                  <div class="rail-icon">⌗</div>
-                  <div class="rail-icon">☰</div>
-                </aside>
+  /* ---------- Interactive workspace demo (sample data only) ---------- */
+  const S = 40, OX = 30, OY = 34;                 // 40 px per metre at the drawing's 1:100 sample
+  const rooms = [
+    {id:'r01', name:'Room 01', x:0,   y:0,    w:4.0, d:3.1,  cls:'Floor Area / Internal', origin:'AI suggestion', conf:'0.94'},
+    {id:'r02', name:'Room 02', x:4.0, y:0,    w:5.0, d:3.73, cls:'Floor Area / Internal', origin:'AI suggestion', conf:'0.91'},
+    {id:'wc',  name:'WC',      x:9.0, y:0,    w:2.0, d:2.1,  cls:'Floor Area / Wet area', origin:'Manual polygon', conf:'—'},
+    {id:'st',  name:'Store',   x:9.0, y:2.1,  w:2.0, d:2.9,  cls:'Floor Area / Internal', origin:'AI suggestion', conf:'0.88'},
+    {id:'of',  name:'Office',  x:0,   y:4.93, w:4.6, d:3.5,  cls:'Floor Area / Internal', origin:'AI suggestion', conf:'0.93'},
+    {id:'mt',  name:'Meeting', x:4.6, y:4.93, w:2.5, d:3.58, cls:'Floor Area / Internal', origin:'Manual polygon', conf:'—'}
+  ];
+  const state = Object.fromEntries(rooms.map(r => [r.id, 'in']));
+  const NS = 'http://www.w3.org/2000/svg', plan = $('#plan');
+  const el = (t, a, p = plan) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const X = m => OX + m * S, Y = m => OY + m * S;
+  const defs = el('defs', {});
+  const pat = el('pattern', {id:'hatch', width:8, height:8, patternUnits:'userSpaceOnUse', patternTransform:'rotate(45)'}, defs);
+  el('line', {x1:0, y1:0, x2:0, y2:8, stroke:'rgba(255,255,255,.09)', 'stroke-width':2}, pat);
+  // grid ticks
+  [0, 4, 9, 11].forEach((m, i) => { el('text', {x:X(m), y:16, class:'tick', 'text-anchor':'middle'}).textContent = String.fromCharCode(65 + i); });
+  [0, 4.93, 8.51].forEach((m, i) => { el('text', {x:10, y:Y(m) + 3, class:'tick'}).textContent = i + 1; });
+  // excluded lobby + corridor note
+  el('rect', {x:X(7.1), y:Y(5.0), width:3.9 * S, height:3.51 * S, class:'excl'});
+  el('text', {x:X(9.05), y:Y(6.8), class:'tick', 'text-anchor':'middle'}).textContent = 'LOBBY · EXCLUDED';
+  el('text', {x:X(4.5), y:Y(4.42), class:'tick', 'text-anchor':'middle'}).textContent = 'CORRIDOR · NOT MEASURED';
+  // rooms
+  const groups = {};
+  rooms.forEach(r => {
+    const rect = el('rect', {x:X(r.x), y:Y(r.y), width:r.w * S, height:r.d * S, class:'room', tabindex:0, role:'button', 'data-id':r.id, 'aria-label':`${r.name}, ${(r.w * r.d).toFixed(2)} square metres`});
+    const g = el('g', {});
+    const cx = X(r.x + r.w / 2), cy = Y(r.y + r.d / 2);
+    el('text', {x:cx, y:cy - 3, class:'rn', 'text-anchor':'middle'}, g).textContent = r.name.toUpperCase();
+    el('text', {x:cx, y:cy + 13, class:'ra', 'text-anchor':'middle'}, g).textContent = (r.w * r.d).toFixed(2) + ' m²';
+    groups[r.id] = {rect, g};
+    rect.addEventListener('click', () => select(r.id));
+    rect.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(r.id); } });
+  });
+  // walls drawn over rooms
+  el('path', {class:'wall', d:`M${X(0)} ${Y(0)}H${X(11)}V${Y(8.51)}H${X(0)}Z M${X(4)} ${Y(0)}V${Y(3.73)} M${X(0)} ${Y(3.1)}H${X(4)} M${X(4)} ${Y(3.73)}H${X(9)} M${X(9)} ${Y(0)}V${Y(5.0)} M${X(9)} ${Y(2.1)}H${X(11)} M${X(0)} ${Y(4.93)}H${X(7.1)} M${X(4.6)} ${Y(4.93)}V${Y(8.51)} M${X(7.1)} ${Y(4.93)}V${Y(8.51)} M${X(9)} ${Y(5.0)}H${X(11)}`});
+  const overlay = el('g', {});
 
-                <div class="main-panel">
-                  <div class="drawing-toolbar">
-                    <div class="toolbar-left">
-                      <span class="tool-label">Mode</span>
-                      <span class="tool-chip active">Area</span>
-                      <span class="tool-chip">Count</span>
-                      <span class="tool-chip">Length</span>
-                    </div>
-                    <div class="toolbar-right">
-                      <span class="tool-chip">Scale 1:100</span>
-                      <span class="tool-chip active">Review Ready</span>
-                    </div>
-                  </div>
+  let current = 'r02';
+  const fmt = r => (r.w * r.d).toFixed(2);
+  const log = msg => { const d = document.createElement('div'); const t = new Date(); d.textContent = `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')} ${msg}`; $('#rv-log').prepend(d); };
+  function select(id) {
+    current = id; const r = rooms.find(x => x.id === id);
+    Object.values(groups).forEach(o => { o.rect.classList.remove('sel'); o.rect.setAttribute('aria-pressed', 'false'); });
+    groups[id].rect.classList.add('sel');
+    groups[id].rect.setAttribute('aria-pressed', 'true');
+    overlay.innerHTML = '';
+    const x0 = X(r.x), y0 = Y(r.y), x1 = X(r.x + r.w), y1 = Y(r.y + r.d);
+    [[x0,y0],[x1,y0],[x1,y1],[x0,y1]].forEach(([cx,cy]) => el('circle', {cx, cy, r:4.5, class:'vtx'}, overlay));
+    const dy = Math.min(y1 + 14, 400);
+    el('path', {class:'dim', d:`M${x0} ${dy}H${x1}M${x0} ${dy-5}v10M${x1} ${dy-5}v10`}, overlay);
+    el('text', {x:(x0 + x1) / 2, y:dy - 4, class:'dimt', 'text-anchor':'middle'}, overlay).textContent = (r.w * 1000).toFixed(0);
+    plan.appendChild(overlay);
+    $('#rv-name').textContent = r.name;
+    $('#rv-qty').innerHTML = `${fmt(r)} <span>m²</span>`;
+    $('#rv-calc').textContent = `${r.w.toFixed(3)} × ${r.d.toFixed(3)} m`;
+    $('#rv-class').textContent = r.cls; $('#rv-origin').textContent = r.origin; $('#rv-conf').textContent = r.conf;
+    render();
+  }
+  function render() {
+    const s = state[current], st = $('#rv-status');
+    st.className = 'status ' + (s === 'ok' ? 'ok' : s === 'rej' ? 'ai' : 'in');
+    st.textContent = s === 'ok' ? 'Approved' : s === 'rej' ? 'Rejected · redraw' : 'In review';
+    $('#rv-approve').disabled = s === 'ok';
+    $('#rv-reject').disabled = s === 'rej';
+    rooms.forEach(r => groups[r.id].rect.classList.toggle('appr', state[r.id] === 'ok'));
+    const n = Object.values(state).filter(v => v === 'ok').length;
+    const total = rooms.filter(r => state[r.id] === 'ok').reduce((a, r) => a + r.w * r.d, 0);
+    $('#progress').textContent = `${n} of 6 regions approved` + (n ? ` · ${total.toFixed(2)} m² approved` : '');
+  }
+  $('#rv-approve').addEventListener('click', () => { const r = rooms.find(x => x.id === current); state[current] = 'ok'; log(`${r.name} ${fmt(r)} m² approved by QS (demo)`); render(); });
+  $('#rv-reject').addEventListener('click', () => { const r = rooms.find(x => x.id === current); state[current] = 'rej'; log(`${r.name} rejected · returned for manual edit (demo)`); render(); });
+  select('r02');
 
-                  <div class="drawing-area">
-                    <div class="plan-title">Architectural Floor Plan — Level 2</div>
-
-                    <div class="room" style="left: 9%; top: 17%; width: 26%; height: 23%;">
-                      <div class="room-label">Room 01<br>12.40 m²</div>
-                    </div>
-
-                    <div class="room selected" style="left: 38%; top: 17%; width: 24%; height: 23%;">
-                      <div class="room-label">Room 02<br>18.65 m²</div>
-                    </div>
-
-                    <div class="room" style="left: 65%; top: 17%; width: 18%; height: 23%;">
-                      <div class="room-label">WC<br>4.20 m²</div>
-                    </div>
-
-                    <div class="room" style="left: 9%; top: 45%; width: 20%; height: 24%;">
-                      <div class="room-label">Store<br>5.80 m²</div>
-                    </div>
-
-                    <div class="room" style="left: 32%; top: 45%; width: 28%; height: 24%;">
-                      <div class="room-label">Office<br>16.10 m²</div>
-                    </div>
-
-                    <div class="room" style="left: 63%; top: 45%; width: 20%; height: 24%;">
-                      <div class="room-label">Meeting<br>8.95 m²</div>
-                    </div>
-
-                    <div class="tag green" style="right: 18px; top: 82px;">Selected region: Room 02</div>
-                    <div class="tag dark small" style="left: 18px; bottom: 18px;">AI suggestion → Human review → Approved quantity</div>
-                  </div>
-                </div>
-
-                <aside class="side-panel">
-                  <h3 class="side-heading">Review Panel</h3>
-
-                  <div class="metric-card">
-                    <div class="metric-label">Quantity</div>
-                    <div class="metric-value">18.65 m²</div>
-                  </div>
-
-                  <div class="metric-card">
-                    <div class="metric-label">Classification</div>
-                    <div class="metric-value">Floor Area / Internal</div>
-                  </div>
-
-                  <div class="metric-card">
-                    <div class="metric-label">Status</div>
-                    <div class="metric-value">In Review</div>
-                  </div>
-
-                  <div class="status-list">
-                    <div class="status-row"><span>Source page</span><span>A-102</span></div>
-                    <div class="status-row"><span>Revision</span><span>Rev 03</span></div>
-                    <div class="status-row"><span>Confidence</span><span>0.91</span></div>
-                    <div class="status-row"><span>Rule</span><span>Floor Area</span></div>
-                  </div>
-
-                  <div class="note-box">
-                    Every AI-generated quantity, link, assumption, deviation or warning retains source reference, status and review history.
-                  </div>
-                </aside>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="problem" class="section-soft">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-label">The Problem</div>
-          <h2>Construction quantity take-off is still slow, fragmented and hard to audit.</h2>
-          <p>
-            Many professionals still work across PDFs, spreadsheets, manual tracing and disconnected notes. This creates repeated effort, weak traceability and higher risk during tender and review.
-          </p>
-        </div>
-
-        <div class="card-grid grid-3">
-          <article class="card">
-            <div class="card-number">01</div>
-            <h3>Manual and repetitive</h3>
-            <p>
-              Quantity surveyors and estimators spend significant time tracing, measuring, checking and re-entering the same information across tools.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-number">02</div>
-            <h3>Weak traceability</h3>
-            <p>
-              Spreadsheet totals often do not clearly show which drawing, page, room, assumption or revision supports each quantity.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-number">03</div>
-            <h3>Pressure to move faster</h3>
-            <p>
-              Short tender timelines increase the risk of missed regions, duplicated measurement and unclear professional decisions.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="workflow">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-label">Core Workflow</div>
-          <h2>R3QBOT keeps the drawing viewer at the centre of the workflow.</h2>
-          <p>
-            The product follows a disciplined process: AI assistance where useful, deterministic calculation where required, and human review before approval and export.
-          </p>
-        </div>
-
-        <div class="workflow-grid">
-          <div class="workflow-step">
-            <div class="step-index">Step 01</div>
-            <h3>Upload and review</h3>
-            <p>Open multi-page construction drawings, confirm metadata and establish the working drawing context.</p>
-          </div>
-
-          <div class="workflow-step">
-            <div class="step-index">Step 02</div>
-            <h3>Calibrate scale</h3>
-            <p>Set or confirm drawing scale so the measurement basis is visible and reliable.</p>
-          </div>
-
-          <div class="workflow-step">
-            <div class="step-index">Step 03</div>
-            <h3>Detect or draw geometry</h3>
-            <p>AI may suggest measurable regions, but users can always draw, edit, split, merge or correct manually.</p>
-          </div>
-
-          <div class="workflow-step">
-            <div class="step-index">Step 04</div>
-            <h3>Review and approve</h3>
-            <p>Check quantities, record assumptions, deviations and warnings, then approve results with source traceability.</p>
-          </div>
-
-          <div class="workflow-step">
-            <div class="step-index">Step 05</div>
-            <h3>Export with audit trail</h3>
-            <p>Export approved quantities and registers to Excel or CSV while preserving revision and decision history.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="why" class="section-soft">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-label">Why R3QBOT</div>
-          <h2>Not just AI output — a reviewable quantity knowledge base.</h2>
-          <p>
-            R3QBOT is designed as an AI-assisted professional tool, not an automatic black box. It helps teams move faster without removing Quantity Surveyor judgement.
-          </p>
-        </div>
-
-        <div class="card-grid grid-4">
-          <article class="card">
-            <div class="card-icon">◎</div>
-            <h3>Drawing-linked traceability</h3>
-            <p>Every measurable item can remain linked to the source drawing, page, revision, geometry and decision history.</p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon">◫</div>
-            <h3>Human-reviewed AI</h3>
-            <p>AI may interpret, detect or suggest, but it does not replace professional review or approve quantities on its own.</p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon">Σ</div>
-            <h3>Deterministic calculation</h3>
-            <p>Final quantity outputs should come from confirmed geometry, explicit logic and repeatable calculation rules.</p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon">↺</div>
-            <h3>Audit and export readiness</h3>
-            <p>Structured export, revision control and audit records support transparent checking and downstream commercial use.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="phase1">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-label">Phase 1 MVP</div>
-          <h2>Start narrow. Prove one real workflow properly.</h2>
-          <p>
-            The immediate goal is one complete and reliable workflow from PDF upload to professionally checked export. Floor area is the first commercial entry point.
-          </p>
-        </div>
-
-        <div class="scope-box">
-          <div class="scope-col">
-            <div class="scope-top">
-              <h3>What Phase 1 covers now</h3>
-              <span class="status-badge now">Current MVP</span>
-            </div>
-
-            <ul class="feature-list">
-              <li><span class="check">✓</span><span>Project creation and multi-page PDF viewing</span></li>
-              <li><span class="check">✓</span><span>Scale calibration and page review</span></li>
-              <li><span class="check">✓</span><span>Manual and AI-assisted floor-area region workflow</span></li>
-              <li><span class="check">✓</span><span>Geometry editing, room labels and classification</span></li>
-              <li><span class="check">✓</span><span>Assumption, deviation and warning records</span></li>
-              <li><span class="check">✓</span><span>Review, approval and Excel/CSV export</span></li>
-            </ul>
-          </div>
-
-          <div class="scope-col">
-            <div class="scope-top">
-              <h3>What comes after</h3>
-              <span class="status-badge future">Future Scope</span>
-            </div>
-
-            <ul class="feature-list">
-              <li><span class="check">→</span><span>Beams</span></li>
-              <li><span class="check">→</span><span>Slabs</span></li>
-              <li><span class="check">→</span><span>Columns</span></li>
-              <li><span class="check">→</span><span>Walls, doors and windows</span></li>
-              <li><span class="check">→</span><span>Civil, M&amp;E and broader quantity modules</span></li>
-              <li><span class="check">→</span><span>Future cost, carbon, procurement and integration layers</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="founder" class="section-soft">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-label">Founder</div>
-          <h2>Built by a construction professional for construction professionals.</h2>
-          <p>
-            R3QBOT is being developed under R3PLEX Projects Solution with a practical focus on usable workflows, professional accountability and SME-friendly digital adoption.
-          </p>
-        </div>
-
-        <div class="founder-card">
-          <div class="founder-visual">
-            <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="founder-mini-logo" />
-            <div class="founder-role">Founder & Product Lead</div>
-            <h3>Ryan Ong</h3>
-          </div>
-
-          <div class="founder-content">
-            <p>
-              Ryan Ong combines quantity surveying, construction project management and digital product-development thinking. R3QBOT is shaped by real workflow pain points in measurement, tender preparation and project documentation.
-            </p>
-
-            <p>
-              The goal is not to replace professional judgement. The goal is to give quantity surveyors and estimators a more connected, reviewable and auditable workspace for quantity take-off.
-            </p>
-
-            <div class="credential-list">
-              <span class="credential">R3PLEX Projects Solution</span>
-              <span class="credential">Quantity Surveying</span>
-              <span class="credential">Construction Technology</span>
-              <span class="credential">AI-Assisted Workflow</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta" id="contact">
-      <div class="container cta-box">
-        <div>
-          <h2>Interested in R3QBOT?</h2>
-          <p>
-            R3QBOT is being developed as a practical, human-reviewed AI platform for construction quantity take-off. If you are interested in pilot collaboration, product feedback or partnership opportunities, get in touch.
-          </p>
-        </div>
-
-        <div class="cta-actions">
-          <a class="btn btn-primary" href="mailto:hello@r3plex.com">Contact R3PLEX</a>
-          <a class="btn btn-secondary" href="#top">Back to Top</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <div class="footer-left">
-        <img src="R3PLEX.png" alt="R3PLEX Projects Solution logo" class="footer-logo" />
-        <div>
-          <div class="footer-name">R3QBOT</div>
-          <div class="footer-meta">AI-assisted quantity take-off by R3PLEX Projects Solution</div>
-        </div>
-      </div>
-
-      <div class="footer-right">
-        <div>© <span id="year"></span> R3PLEX Projects Solution. All rights reserved.</div>
-        <div>R3QBOT is a reviewable professional tool. Human approval remains required.</div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    const navToggle = document.getElementById("navToggle");
-    const navLinks = document.getElementById("navLinks");
-
-    navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("open");
+  /* ---------- Workflow stepper ---------- */
+  const steps = [...document.querySelectorAll('.step')];
+  const bar = $('#wf-bar');
+  const setStep = (i, focus) => {
+    steps.forEach((s, j) => {
+      const on = i === j; s.setAttribute('aria-selected', on); s.tabIndex = on ? 0 : -1; s.classList.toggle('done', j < i);
+      document.getElementById(s.getAttribute('aria-controls')).hidden = !on;
     });
-
-    document.querySelectorAll('#navLinks a').forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-      });
+    $('#wf-num').textContent = String(i + 1).padStart(2, '0');
+    const a = steps[0].offsetTop + 28, b = steps[i].offsetTop + 28; bar.style.top = a + 'px'; bar.style.height = (b - a) + 'px';
+    if (focus) steps[i].focus();
+  };
+  steps.forEach((s, i) => {
+    s.addEventListener('click', () => setStep(i));
+    s.addEventListener('keydown', e => {
+      const k = {ArrowDown:1, ArrowRight:1, ArrowUp:-1, ArrowLeft:-1}[e.key];
+      if (k) { e.preventDefault(); setStep((i + k + steps.length) % steps.length, true); }
     });
+  });
+  setStep(0); addEventListener('resize', () => setStep(steps.findIndex(s => s.getAttribute('aria-selected') === 'true')));
 
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
